@@ -27746,7 +27746,7 @@ module.exports = function (module) {
 //import common from '../../common.json';
 
 exports.layout = function (content, data) {
-  return `
+    return `
   <!DOCTYPE html>
   <html>
   <head>
@@ -27757,6 +27757,23 @@ exports.layout = function (content, data) {
     <meta name='description' content='demo'/>
     <meta name='viewport' content='width=device-width, initial-scale=1'/>
     <link href="http://qqweb.top/m/css/index.css" rel="stylesheet">
+    <script type="text/javascript">
+        (function(doc, win) {
+            var fontSize,docEl = doc.documentElement,
+                resizeEvt = 'onorientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function() {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    fontSize = 10 * (clientWidth / 320);
+                    if(fontSize && fontSize <= 16){
+                        docEl.style.fontSize = fontSize + 'px';
+                    }
+                };
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
   </head>
   <body>
     <div id="root"><div>${content}</div></div>
@@ -27766,7 +27783,6 @@ exports.layout = function (content, data) {
     <script type="text/javascript" src="http://localhost:9000/js/manifest.js"></script>
     <script type="text/javascript" src="http://localhost:9000/js/common.js"></script>
     <script type="text/javascript" src="http://localhost:9000/js/index.js"></script>
-    <script type="text/javascript" charset="utf-8" async="" src="http://localhost:9000/js/app-search-7.js"></script>
   </body>
   </html>
 `;

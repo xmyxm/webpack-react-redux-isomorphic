@@ -7732,42 +7732,22 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 exports.default = function (ctx) {
-
-  let moudel,
-      moudelName = ctx.url.replace(/\//g, '').toLowerCase();
-  switch (moudelName) {
-    case 'home':
-      moudel = _home2.default;
-      break;
-    case 'email':
-      moudel = _email2.default;
-      break;
-    case 'me':
-      moudel = _me2.default;
-      break;
-    default:
-      moudel = _home2.default;
-      break;
-  }
-
   const html = (0, _layout.layout)((0, _server.renderToString)(_react2.default.createElement(
     _reactRedux.Provider,
     { store: store },
     _react2.default.createElement(
       _reactRouterDom.StaticRouter,
       { location: ctx.url, context: {} },
-      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/home', component: moudel })
+      _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/home', component: _home2.default }),
+        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/me', component: _me2.default }),
+        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/email', component: _email2.default })
+      )
     )
   )), store.getState());
   ctx.body = html;
-
-  /*let callBackData = {
-    'status': 200,
-    'message': '这个是主页',
-    'data': {}
-  };
-  ctx.body = callBackData;*/
-  //ctx.throw(406, 'allow json and html only');
 };
 
 var _react = __webpack_require__(0);
@@ -7814,23 +7794,39 @@ const middleware = [_reduxThunk2.default];
 const finalCreateStore = (0, _redux.applyMiddleware)(...middleware)(_redux.createStore);
 
 
+/*  let moudel,moudelName = ctx.url.replace(/\//g, '').toLowerCase();
+  switch(moudelName){
+    case 'home' :  
+      moudel = Home;
+      break;
+    case 'email':
+      moudel = Email;
+      break;
+    case 'me':
+      moudel = Me;
+      break;
+    default :
+      moudel = Home;
+      break;
+  }
+*/
+
 /*console.log('typeof moudel   输出类型');
 console.log(typeof moudel);
 
         const html = layout(renderToString(
           <Provider store={store}>
-            <Switch>
-              <div className = "blogbox">
+            <StaticRouter location={ctx.url} context={{}}>
+              <div>
+                <Email/>
                 <Route exact path="/home" component = {moudel} ></Route>
-                </div>
-            </Switch>
+              </div>
+            </StaticRouter>
           </Provider>
         ), store.getState());
         ctx.body = html;
 */
 const store = finalCreateStore(_reducer2.default, initialState);
-
-//get page and switch json and html
 
 /***/ }),
 /* 65 */

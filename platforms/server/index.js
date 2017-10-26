@@ -5,8 +5,6 @@ import {Provider} from 'react-redux';
 import { createStore, applyMiddleware,combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 
-//import App from '../../client/src/view/home.js';
-
 import Home from '../../src/component/home/home.jsx';
 import Email from '../../src/component/email/email.jsx';
 import Me from '../../src/component/me/me.jsx';

@@ -48,7 +48,7 @@ module.exports = {
         devtoolModuleFilenameTemplate: '[absolute-resource-path]',
         libraryTarget: 'commonjs2'
     },
-    devtool: isProduct ? 'hidden-source-map' : 'inline-source-map',
+    devtool: isProduct ? 'hidden-source-map' : 'inline-source-map',//vscode 中调试必备 inline-source-map
     resolve: {
         //别名设置,主要是为了配和webpack.ProvidePlugin设置全局插件;
         alias: {

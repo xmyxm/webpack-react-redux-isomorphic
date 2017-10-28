@@ -9,10 +9,18 @@ const port = 3000;
 const host = '127.0.0.1';
 
 
+app.use(async (ctx, next) => {
+    const start = new Date()
+    await next()
+    const ms = new Date() - start
+    console.log(`请求状态监控 ${ctx.method} ${ctx.url} - ${ms}ms`)
+});
+app.use(router.routes());
+
 router.get(/^\/.*/,
     render.default
 );
-app.use(router.routes());
+
 app.listen(port);
 
 console.log('开始监听：');

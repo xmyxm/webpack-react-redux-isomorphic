@@ -3,6 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const glob = require('glob');
 const ROOT_PATH = process.env.ROOT_PATH;
+const isProduct = false;
 //const env = require(`${ROOT_PATH}/f2eci`).env;
 
 // 是否ppe、product环境
@@ -38,19 +39,22 @@ module.exports = {
     entry: {
         //m:['./src/m.js']
         //,main:['./src/main.js']
-        index:['./platforms/server/index.js']
+        index: ['./platforms/server/index.js']
     },
     output: {
         filename: '[name].js',
-        path:  path.join(__dirname, "../dist"),
+        path: path.join(__dirname, "../dist"),
+        // vscode断点node端源码
+        devtoolModuleFilenameTemplate: '[absolute-resource-path]',
         libraryTarget: 'commonjs2'
     },
-    resolve:{
+    devtool: isProduct ? 'hidden-source-map' : 'inline-source-map',
+    resolve: {
         //别名设置,主要是为了配和webpack.ProvidePlugin设置全局插件;
         alias: {
-             //绝对路径;
-             action: path.resolve(__dirname,'../src/redux/action'), 
-             utils: path.resolve(__dirname,'../src/utils')
+            //绝对路径;
+            action: path.resolve(__dirname, '../src/redux/action'),
+            utils: path.resolve(__dirname, '../src/utils')
         }
     },
     module: {

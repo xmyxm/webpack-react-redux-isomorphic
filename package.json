@@ -8,7 +8,7 @@
     "start": "node server.js",
     "build": "webpack --config ./webpack/webpack.pro.config.js",
     "server": "webpack --config ./webpack/webpack.server.config.js",
-    "testbuild": "webpack --config ./webpack/webpack.beta.config.js",
+    "test": "webpack --config ./webpack/webpack.beta.config.js",
     "st":"webpack --config ./webpack/webpack.server.config.js && node app.js"
   },
   "repository": {

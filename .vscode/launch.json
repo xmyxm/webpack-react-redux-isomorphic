@@ -3,10 +3,16 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": [{
-        "type": "node",
-        "request": "launch",
-        "name": "Launch Program",
-        "program": "${workspaceRoot}/app.js"
-    }]
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "program": "${workspaceRoot}/app.js",
+            "sourceMaps": true, //node 端调试压缩代码必须在此配置 开启 sourcemap
+            "outFiles": [
+                "${workspaceFolder}/dist/*.js" //node 端调试压缩代码必须指明压缩代码匹配规则
+            ]
+        }
+    ]
 }

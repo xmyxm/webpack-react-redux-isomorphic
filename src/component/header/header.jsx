@@ -30,7 +30,7 @@ class Header extends Component{
 
 	componentDidMount(){
 		//debugger
-		this.props.fetchPosts('http://qqweb.top/API/BlogApi/AdminUser');
+		//this.props.fetchPosts('http://qqweb.top/API/BlogApi/AdminUser');
 	}
 
 	showhome(e){
@@ -50,7 +50,7 @@ class Header extends Component{
 						<div className = "userinfo">
 							<div className = "usericon">
 								{
-									this.data && <img className = "imgfile" src = {'http://qqweb.top' + this.data.AvatarUrl} />
+									this.data && <img className = "imgfile" src = 'http://qqweb.top/UploadFile/UserIcon/9877ec3eb85746b19a424942cacfcdb1.png' />
 								}
 							</div>
 							<div className = "usercontent">

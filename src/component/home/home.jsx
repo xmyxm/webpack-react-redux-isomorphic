@@ -11,7 +11,7 @@ export default class Home extends Component{
 
 	render(){
 		return (
-			<Link to = "/list" className = "homebox">
+			<Link to = "/me" className = "homebox">
 				<img className = "headimg" src = {imglink} />
 				<h1 className = "title">这是一个关于前端技术分享的博客</h1>
 				<p className = "classes">CSS样式,Dom元素</p>

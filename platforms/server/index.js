@@ -1,8 +1,8 @@
 import React from 'react';
-import {renderToString} from 'react-dom/server';
-import { HashRouter as Router, StaticRouter, MemoryRouter, Route, Switch, Link} from 'react-router-dom';
-import {Provider} from 'react-redux';
-import { createStore, applyMiddleware,combineReducers } from 'redux';
+import { renderToString } from 'react-dom/server';
+import { HashRouter as Router, StaticRouter, MemoryRouter, Route, Switch, Link } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 //import createHistory from 'history/createMemoryHistory'
 
@@ -10,67 +10,56 @@ import Header from '../../src/component/header/header.jsx';
 import Home from '../../src/component/home/home.jsx';
 import Email from '../../src/component/email/email.jsx';
 import Me from '../../src/component/me/me.jsx';
+import List from '../../src/component/list/list.jsx';
 import reducers from '../../src/redux/reducer';
-import {layout} from './layout.js';
+import { layout } from './layout.js';
 
 
 const initialState = {};
 const middleware = [thunk];
 const finalCreateStore = applyMiddleware(...middleware)(createStore);
 const store = finalCreateStore(reducers, initialState);
-//const history = createHistory();
-// <Route exact path="/home" component = {Home} ></Route>
-//                 <Route exact path="/me" component = {Me} ></Route>
-//                 <Route exact path="/email" component = {Email} ></Route>
 
-export default function(ctx) {
-        const html = layout(renderToString(
-          <Provider store={store}>
-            <MemoryRouter location={ctx.url}>
-              <div>
-                <Header/>
-                <Home/>
-              </div>
-            </MemoryRouter>
-          </Provider>
-        ), store.getState());
-        ctx.body = html;
-}
+//function async 
 
-
-
-/*  let moudel,moudelName = ctx.url.replace(/\//g, '').toLowerCase();
-  switch(moudelName){
-    case 'home' :  
-      moudel = Home;
+export default function (ctx) {
+  let Moudel, moudelName = ctx.url.replace(/\//g, '').toLowerCase();
+  console.log(moudelName);
+  switch (moudelName) {
+    case 'home':
+      Moudel = Home;
       break;
     case 'email':
-      moudel = Email;
+      Moudel = Email;
       break;
     case 'me':
-      moudel = Me;
+      Moudel = Me;
       break;
-    default :
-      moudel = Home;
+    case 'list':
+      Moudel = List;
+      break;
+    default:
+      Moudel = Home;
       break;
   }
-*/
 
-/*console.log('typeof moudel   输出类型');
-console.log(typeof moudel);
+  if (Moudel.serverRender) {
+    //await Promise.all(prefetchTasks)
+    Moudel.serverRender(store);
+  }
 
-        const html = layout(renderToString(
-          <Provider store={store}>
-            <StaticRouter location={ctx.url} context={{}}>
-              <div>
-                <Email/>
-                <Route exact path="/home" component = {moudel} ></Route>
-              </div>
-            </StaticRouter>
-          </Provider>
-        ), store.getState());
-        ctx.body = html;
-*/
+  const html = layout(renderToString(
+    <Provider store={store}>
+      <MemoryRouter location={ctx.url}>
+        <div>
+          <Header />
+          <Moudel />
+        </div>
+      </MemoryRouter>
+    </Provider>
+  ), store.getState());
+  ctx.body = html;
+}
 
 
 

@@ -45,7 +45,7 @@ export default class List extends Component {
 				}
 			}
 		}
-		return false;
+		//return false;
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -55,7 +55,7 @@ export default class List extends Component {
 				return false;
 			}
 			this.dataloading = false;
-			return upPageData(nextProps.fetchData);
+			this.upPageData(nextProps.fetchData);
 		}
 		return false;
 	}

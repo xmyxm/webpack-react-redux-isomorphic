@@ -26,10 +26,9 @@ export default class Header extends Component{
     		let data = fetchData.Json;
 			if(data && data.ID > 0){
 				this.data = data;
-				return true;
+				//return true;
 			}
 		}
-		return false;
 	}
 
 	shouldComponentUpdate(nextProps, nextState){
@@ -39,7 +38,7 @@ export default class Header extends Component{
     			return false;
     		}
     		this.dataloading = false;
-    		return this.upPageData(nextProps.fetchData);
+    		this.upPageData(nextProps.fetchData);
     	}
     	return true;
 	}
@@ -51,7 +50,6 @@ export default class Header extends Component{
 	}
 
 	showhome(e){
-		debugger
 		if(e.target.className == "searchicon" && !this.state.showmenu)return;
 		this.setState({showmenu:!this.state.showmenu});
 	}

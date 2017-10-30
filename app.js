@@ -13,7 +13,7 @@ app.use(async (ctx, next) => {
     const start = new Date()
     await next()
     const ms = new Date() - start
-    //console.log(`请求状态监控 ${ctx.method} ${ctx.url} - ${ms}ms`)
+    console.log(`请求状态监控 ${ctx.method} ${ctx.url} - ${ms}ms`)
 });
 app.use(router.routes());
 

@@ -37,17 +37,20 @@ export const fetchPosts = (path, postData) => {
     let url = path + '?' + paramToStr(postData);
     return dispatch => {
         dispatch(requestPosts(url, postData));
+        const start = new Date();
         return fetch(url, {
             mode: 'cors',
             "Content-Type": "application/json",
         })
             .then(response => {
-                console.log('redux action fetch response数据');//+ JSON.stringify(response)
+                //console.log('redux action fetch response数据');//+ JSON.stringify(response)
                 if (response.ok) {
                     return Promise.resolve(
                         response.json().then(
                             json => {
-                                console.log('redux action fetch json数据：');//+ JSON.stringify(json)
+                                const ms = new Date() - start;
+                                console.log('服务耗时：' + url + '  总时长：' + ms);
+                                //console.log('redux action fetch json数据：');//+ JSON.stringify(json)
                                 return Promise.resolve(dispatch(resolvePosts(path, json)));
                             }
                         )

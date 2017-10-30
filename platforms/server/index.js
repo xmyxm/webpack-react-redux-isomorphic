@@ -42,10 +42,13 @@ export default async function (ctx) {
         Moudel = Home;
         break;
     }
-
+    
+    let reqQueue = [Header.serverRender(store)]; 
     if (Moudel.serverRender) {
-      await Promise.all([Moudel.serverRender(store)])
+      reqQueue.push(Moudel.serverRender(store));
     }
+
+    await Promise.all(reqQueue);
 
     console.log('开始读取store中数据');
     const initData = store.getState();

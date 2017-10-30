@@ -5,10 +5,31 @@ import {Link} from 'react-router-dom';
 import *as action from 'action/fetch-action.js';
 import './header.less';
 
-class Header extends Component{
+@connect(state => {return {fetchData:state.fetchData}},action)
+export default class Header extends Component{
 	constructor(props){
 		super(props);
 		this.state = {showmenu:false};
+	}
+
+	static serverRender(store) {
+		return action.fetchPosts('http://qqweb.top/API/BlogApi/AdminUser')(store.dispatch);
+	}
+
+	//渲染前服务端和客户端都调用
+	componentWillMount() {
+		this.upPageData(this.props.fetchData || window.__REDUX_DATA__.fetchData);
+	}
+
+	upPageData(fetchData){
+		if(fetchData && fetchData.Json){
+    		let data = fetchData.Json;
+			if(data && data.ID > 0){
+				this.data = data;
+				return true;
+			}
+		}
+		return false;
 	}
 
 	shouldComponentUpdate(nextProps, nextState){
@@ -18,22 +39,19 @@ class Header extends Component{
     			return false;
     		}
     		this.dataloading = false;
-    		if(nextProps.fetchData.Json){
-	    		let data = nextProps.fetchData.Json;
-				if(data && data.ID > 0){
-					this.data = data;
-				}
-    		}
+    		return this.upPageData(nextProps.fetchData);
     	}
     	return true;
 	}
 
 	componentDidMount(){
-		//debugger
-		//this.props.fetchPosts('http://qqweb.top/API/BlogApi/AdminUser');
+		if(!Header.serverRender){
+			this.props.fetchPosts('http://qqweb.top/API/BlogApi/AdminUser');
+		}
 	}
 
 	showhome(e){
+		debugger
 		if(e.target.className == "searchicon" && !this.state.showmenu)return;
 		this.setState({showmenu:!this.state.showmenu});
 	}
@@ -50,7 +68,7 @@ class Header extends Component{
 						<div className = "userinfo">
 							<div className = "usericon">
 								{
-									this.data && <img className = "imgfile" src = 'http://qqweb.top/UploadFile/UserIcon/9877ec3eb85746b19a424942cacfcdb1.png' />
+									this.data && <img className = "imgfile" src = {'http://qqweb.top' + this.data.AvatarUrl} />
 								}
 							</div>
 							<div className = "usercontent">
@@ -85,13 +103,6 @@ class Header extends Component{
 } 
 
 
-
-
-export default connect(
-	state=> {
-		return {fetchData:state.fetchData}
-	}
-	,action)(Header);
 
 
 

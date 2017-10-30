@@ -73,7 +73,7 @@ export default class List extends Component {
 				_self.pullBlogData();
 			}
 		}
-		if (!serverRender) {
+		if (!List.serverRender) {
 			_self.pullBlogData();
 		}
 	}

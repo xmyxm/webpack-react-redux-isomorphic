@@ -35,7 +35,7 @@ exports.layout = function(content, data) {
   <body>
     <div id="root"><div>${content}</div></div>
   <script>
-  window.__REDUX_DATA__ = ${JSON.stringify(data)};
+  window.__REDUX_DATA__ = '${JSON.stringify(data)}';
   </script>
     <script type="text/javascript" src="http://localhost:9000/js/manifest.js"></script>
     <script type="text/javascript" src="http://localhost:9000/js/common.js"></script>

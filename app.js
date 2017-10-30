@@ -13,7 +13,7 @@ app.use(async (ctx, next) => {
     const start = new Date()
     await next()
     const ms = new Date() - start
-    console.log(`请求状态监控 ${ctx.method} ${ctx.url} - ${ms}ms`)
+    //console.log(`请求状态监控 ${ctx.method} ${ctx.url} - ${ms}ms`)
 });
 app.use(router.routes());
 
@@ -24,7 +24,7 @@ router.get(/^\/.*/,
 app.listen(port);
 
 console.log('开始监听：');
-const url = 'http://' + host + ':' + port + '/home';
+const url = 'http://' + host + ':' + port + '/list';
 console.log('打开默认页面: ' + url);
 open(url);
 

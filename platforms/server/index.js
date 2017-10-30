@@ -22,43 +22,44 @@ const store = finalCreateStore(reducers, initialState);
 
 //function async 
 
-export default function (ctx) {
-  let Moudel, moudelName = ctx.url.replace(/\//g, '').toLowerCase();
-  console.log(moudelName);
-  switch (moudelName) {
-    case 'home':
-      Moudel = Home;
-      break;
-    case 'email':
-      Moudel = Email;
-      break;
-    case 'me':
-      Moudel = Me;
-      break;
-    case 'list':
-      Moudel = List;
-      break;
-    default:
-      Moudel = Home;
-      break;
-  }
+export default async function (ctx) {
+    let Moudel, moudelName = ctx.url.replace(/\//g, '').toLowerCase();
+    console.log(moudelName);
+    switch (moudelName) {
+      case 'home':
+        Moudel = Home;
+        break;
+      case 'email':
+        Moudel = Email;
+        break;
+      case 'me':
+        Moudel = Me;
+        break;
+      case 'list':
+        Moudel = List;
+        break;
+      default:
+        Moudel = Home;
+        break;
+    }
 
-  if (Moudel.serverRender) {
-    //await Promise.all(prefetchTasks)
-    Moudel.serverRender(store);
-  }
+    if (Moudel.serverRender) {
+      await Promise.all([Moudel.serverRender(store)])
+    }
 
-  const html = layout(renderToString(
-    <Provider store={store}>
-      <MemoryRouter location={ctx.url}>
-        <div>
-          <Header />
-          <Moudel />
-        </div>
-      </MemoryRouter>
-    </Provider>
-  ), store.getState());
-  ctx.body = html;
+    console.log('开始读取store中数据');
+    const initData = store.getState();
+    const html = layout(renderToString(
+      <Provider store={store}>
+        <MemoryRouter location={ctx.url}>
+          <div>
+            <Header />
+            <Moudel />
+          </div>
+        </MemoryRouter>
+      </Provider>
+    ), initData);
+    ctx.body = html;
 }
 
 

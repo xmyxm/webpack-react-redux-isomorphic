@@ -20,17 +20,32 @@ export default class List extends Component {
 	}
 
 	static serverRender(store) {
-		let pro = action.fetchPosts('http://qqweb.top/API/BlogApi/WorkList', { PageIndex: 1, PageSize: 10 });
-		let k = 1;
-		let p = pro(store.dispatch);
+		return action.fetchPosts('http://qqweb.top/API/BlogApi/WorkList', { PageIndex: 1, PageSize: 10 })(store.dispatch);
 	}
 
-	static loadData(option) {
-		if (option && option.store) {
-			return option.store.dispatch(loadMovieList());
-		} else {
-			this.props.loadMovieList();
+	//渲染前服务端和客户端都调用
+	componentWillMount() {
+		this.upPageData(this.props.fetchData || window.__REDUX_DATA__.fetchData);
+	}
+
+	upPageData(fetchData) {
+		if (fetchData && fetchData.Json) {
+			let data = fetchData.Json;
+			if (data && data.TotalCount) {
+				this.totalCount = data.TotalCount;
+				if (data.PageIndex * data.PageSize >= data.TotalCount) {
+					this.imgLoading = false;
+				} else {
+					++this.page;
+					this.imgLoading = true;
+				}
+				if (data.BlogWorkList && data.BlogWorkList.length) {
+					this.bloglist = this.bloglist.concat(data.BlogWorkList);
+					return true;
+				}
+			}
 		}
+		return false;
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -40,22 +55,7 @@ export default class List extends Component {
 				return false;
 			}
 			this.dataloading = false;
-			if (nextProps.fetchData.Json) {
-				let data = nextProps.fetchData.Json;
-				if (data && data.TotalCount) {
-					this.totalCount = data.TotalCount;
-					if (data.PageIndex * data.PageSize >= data.TotalCount) {
-						this.imgLoading = false;
-					} else {
-						++this.page;
-						this.imgLoading = true;
-					}
-					if (data.BlogWorkList && data.BlogWorkList.length) {
-						this.bloglist = this.bloglist.concat(data.BlogWorkList);
-						return true;
-					}
-				}
-			}
+			return upPageData(nextProps.fetchData);
 		}
 		return false;
 	}

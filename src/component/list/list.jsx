@@ -25,6 +25,7 @@ export default class List extends Component {
 
 	//渲染前服务端和客户端都调用
 	componentWillMount() {
+		debugger
 		this.upPageData(this.props.fetchData || window.__REDUX_DATA__.fetchData);
 	}
 

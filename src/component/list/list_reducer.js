@@ -19,17 +19,17 @@ const ListData = (state = { ...defaultlState }, action = {}) => {
             //debugger;
             state.isFetching = false;
             let data = action.json;
-            console.log('------list state---------');
-            console.log(data);
-            //console.log(data && data.TotalCount);
             if (data && data.TotalCount) {
-
                 if (data.PageIndex * data.PageSize >= data.TotalCount) {
                     state.imgLoading = false;
                 } else {
                     state.imgLoading = true;
                 }
-                state.Json.BlogWorkList = (state.Json.BlogWorkList || []).concat(data.BlogWorkList);
+                if (state.Json && state.Json.BlogWorkList) {
+                    state.Json.BlogWorkList = state.Json.BlogWorkList.concat(action.json.BlogWorkList);
+                } else {
+                    state.Json = { BlogWorkList: data.BlogWorkList };
+                }
                 state.istrue = true;
             }
             return { ...state };//请求成功,返回一个新的state

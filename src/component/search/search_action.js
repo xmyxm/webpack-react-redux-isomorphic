@@ -37,6 +37,7 @@ export const fetchPosts = (path, postData) => {
     let url = path + '?' + paramToStr(postData);
     return dispatch => {
         dispatch(requestPosts(url, postData));
+        const start = new Date();
         return fetch(url, {
             method: 'POST',
             mode: 'cors',
@@ -45,7 +46,16 @@ export const fetchPosts = (path, postData) => {
             .then(response => {
                 if (response.ok) {
                     return Promise.resolve(response.json().then(
-                        json => { return Promise.resolve(dispatch(resolvePosts(path, json))) }
+                        json => {
+                                const ms = new Date() - start;
+                                console.log('服务耗时：' + url + '  总时长：' + ms);
+                                if (json.BlogWorkList) {
+                                    for (let i = 0, l = json.BlogWorkList.length; i < l; i++) {
+                                        json.BlogWorkList[i].Title = encodeURIComponent(json.BlogWorkList[i].Title);
+                                    }
+                                }
+                                return Promise.resolve(dispatch(resolvePosts(path, json)))
+                            }
                     ))
                 } else {
                     console.log(`redux action fetch 拉取数据失败,code: ${response.status},错误信息: ${response.statusText}`);

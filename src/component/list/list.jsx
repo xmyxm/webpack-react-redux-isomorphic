@@ -37,7 +37,8 @@ export default class List extends Component {
 	}
 
 	pullBlogData() {
-		this.props.fetchPosts('http://qqweb.top/API/BlogApi/WorkList', { PageIndex: ++this.props.fetchData.param.PageIndex, PageSize: 10 });
+		let PageIndex = this.props.fetchData.param ? ++this.props.fetchData.param.PageIndex : 1;
+		this.props.fetchPosts('http://qqweb.top/API/BlogApi/WorkList', { PageIndex: PageIndex, PageSize: 10 });
 	}
 
 	render() {

@@ -36,7 +36,8 @@ export default class Search extends Component{
     }
 
 	pullBlogData(page){
-		this.props.fetchPosts('http://qqweb.top/API/BlogApi/Query',{PageIndex:page || ++this.props.fetchData.param.PageIndex,key:this.searchValue || ''});
+		let PageIndex = page || (this.props.fetchData.param ? ++this.props.fetchData.param.PageIndex : 1);
+		this.props.fetchPosts('http://qqweb.top/API/BlogApi/Query',{PageIndex:PageIndex,key:this.searchValue || ''});
 	}
 
 	Query(){
@@ -73,10 +74,10 @@ export default class Search extends Component{
 								return 	<li key = {item.ID} className = "item" >
 											<Link to={'/detail/' + item.ID} className = "clickarea">
 												<div className = "contenthead">
-													<div className = "title">{item.Title}</div>
+													<div className = "title">{decodeURIComponent(item.Title)}</div>
 													<div className = "tag">分类:{item.SortName}</div>
 												</div>
-												<p className = "content">{item.Content}</p>
+												<p className = "content"></p>
 												<div className = "information">
 													<span className = "time">浏览:{item.PageViewTotal}</span>
 													<span className = "author">{DateTool.ChangeDateFormat(item.UpdateTime)}</span>

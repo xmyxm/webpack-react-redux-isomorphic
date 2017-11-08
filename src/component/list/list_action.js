@@ -56,7 +56,7 @@ export const fetchPosts = (path, postData) => {
                                 json.BlogWorkList[i].Title = encodeURIComponent(json.BlogWorkList[i].Title);
                             }
                             //}
-                            return Promise.resolve(dispatch(resolvePosts(path, json)));
+                            return Promise.resolve(dispatch(resolvePosts(path, json)))
                         }
                     ))
                 } else {

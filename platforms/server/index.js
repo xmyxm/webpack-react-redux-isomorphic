@@ -20,9 +20,6 @@ import { layout } from './layout.js';
 const initialState = {};
 const middleware = [thunk];
 const finalCreateStore = applyMiddleware(...middleware)(createStore);
-const store = finalCreateStore(reducers, initialState);
-
-//function async 
 
 export default async function (ctx) {
   let Moudel, moudelName = ctx.url.replace(/(\/|[0-9])/g, '').toLowerCase();
@@ -54,6 +51,7 @@ export default async function (ctx) {
       break;
   }
 
+  const store = finalCreateStore(reducers, initialState);
   let reqQueue = [Header.serverRender(store)];
   if (Moudel.serverRender) {
     reqQueue.push(Moudel.serverRender(store, ctx.url));

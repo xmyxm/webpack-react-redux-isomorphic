@@ -1,34 +1,20 @@
 import ReactDOM from 'react-dom';
 import React,{Component} from 'react';
+import {withRouter} from "react-router-dom";
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import *as action from 'action/fetch-action.js';
+import {fetchPosts} from './header_action.js';
 import './header.less';
 
-@connect(state => {return {fetchData:state.fetchData}},action)
-export default class Header extends Component{
+@connect(state => {return {fetchData:state.HeaderData}},{fetchPosts})
+class Header extends Component{
 	constructor(props){
 		super(props);
 		this.state = {showmenu:false};
 	}
 
 	static serverRender(store) {
-		return action.fetchPosts('http://qqweb.top/API/BlogApi/AdminUser')(store.dispatch);
-	}
-
-	//渲染前服务端和客户端都调用
-	componentWillMount() {
-		this.upPageData(this.props.fetchData || window.__REDUX_DATA__.fetchData);
-	}
-
-	upPageData(fetchData){
-		if(fetchData && fetchData.Json){
-    		let data = fetchData.Json;
-			if(data && data.ID > 0){
-				this.data = data;
-				//return true;
-			}
-		}
+		return fetchPosts('http://qqweb.top/API/BlogApi/AdminUser')(store.dispatch);
 	}
 
 	shouldComponentUpdate(nextProps, nextState){
@@ -38,31 +24,45 @@ export default class Header extends Component{
     			return false;
     		}
     		this.dataloading = false;
-    		this.upPageData(nextProps.fetchData);
+    		if(nextProps.fetchData.Json){
+	    		let data = nextProps.fetchData.Json;
+				if(data && data.ID > 0){
+					this.data = data;
+				}
+    		}
     	}
     	return true;
 	}
 
 	componentDidMount(){
-		if(!Header.serverRender){
+		if (!Header.serverRender || !this.props.fetchData.Json) {
 			this.props.fetchPosts('http://qqweb.top/API/BlogApi/AdminUser');
 		}
 	}
 
-	showhome(e){
-		if(e.target.className == "searchicon" && !this.state.showmenu)return;
+	showhome(){
 		this.setState({showmenu:!this.state.showmenu});
+	}
+
+	gotoSearch(){
+
+		if(this.props.history.location.pathname != '/search'){
+			this.props.history.push('/search');
+		}
+		if(this.state.showmenu){
+			this.showhome();
+		}
 	}
 
 	render(){
 		return (
-			<div className = "header" onClick = {this.showhome.bind(this)}>
-				<header className = "topbtn">
-					<div className = "menuicon" ></div>
-					<div className = "blogicon" ></div>
-					<Link to="/search" className = "searchicon" ></Link>
+			<div className = "header" >
+				<header className = "topbtn" >
+					<div className = "menuicon" onClick = {this.showhome.bind(this)} ></div>
+					<div className = "blogicon" onClick = {this.showhome.bind(this)}  ></div>
+					<div className = "searchicon" onClick = {this.gotoSearch.bind(this)}  ></div>
 				</header>
-				<div className = {this.state.showmenu ? "classify show" : "classify"}>
+				<div onClick = {this.showhome.bind(this)} className = {this.state.showmenu ? "classify show" : "classify"}>
 						<div className = "userinfo">
 							<div className = "usericon">
 								{
@@ -100,11 +100,7 @@ export default class Header extends Component{
 	}
 } 
 
-
-
-
-
-
+export default withRouter(Header)
 
 
 

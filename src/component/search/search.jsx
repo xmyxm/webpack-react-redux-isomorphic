@@ -1,57 +1,20 @@
 import ReactDOM from 'react-dom';
 import React,{Component} from 'react';
 import {Link} from 'react-router-dom';
-import *as action from 'action/fetch-action.js';
+import {fetchPosts} from './search_action.js';
 import {connect} from 'react-redux';
 import DateTool from 'utils/date-format.js';
 import Eat from '../animation/eat.jsx';
 import './search.less';
 
-@connect(state => {return {fetchData:state.fetchData}},action)
+@connect(state => {return {fetchData:state.SearchData}},{fetchPosts})
 export default class Search extends Component{
 	constructor(props){
 		super(props);
-		this.page = 1;
-		this.imgLoading = false;
-		this.dataloading = false;
-		this.totalCount = 0;
-		this.bloglist = [];
 	}
 
-	shouldComponentUpdate(nextProps, nextState){
-		if(nextProps.fetchData){
-    		if(nextProps.fetchData.isFetching) {
-    			this.dataloading = true;
-    			return false;
-    		}
-    		this.dataloading = false;
-    		if(nextProps.fetchData.Json){
-				//debugger
-				let data = nextProps.fetchData.Json;
-				if(data){
-					if(data.PageIndex == 1){
-						this.bloglist.length = 0 ;
-					}
-					if(data.TotalCount){
-						this.totalCount = data.TotalCount;
-						if(data.PageIndex * data.PageSize >= data.TotalCount){
-							this.imgLoading = false;
-						}else{
-							++this.page;
-							this.imgLoading = true;
-						}
-						if(data.BlogWorkList && data.BlogWorkList.length){
-							this.bloglist = this.bloglist.concat(data.BlogWorkList);
-							return true;
-						}
-					}else{
-						this.imgLoading = false;
-					}
-				}
-				return true;
-			}
-    	}
-    	return false;
+	static serverRender(store,url) {
+		return fetchPosts('http://qqweb.top/API/BlogApi/Query',{PageIndex:1,key:''})(store.dispatch);
 	}
 
 	componentWillUnmount() {
@@ -61,25 +24,24 @@ export default class Search extends Component{
     componentDidMount(){
     	let _self = this;
 		window.onscroll = (e) => { 
-
-            if (!_self.imgLoading || _self.dataloading) return;
+            if (!_self.props.fetchData.imgLoading || _self.props.fetchData.isFetching) return;
             let alltop = (document.body.scrollTop || document.documentElement.scrollTop) + window.innerHeight + 150;
             if (alltop > document.body.scrollHeight) {
                 _self.pullBlogData();
             }
-
         }
-        _self.pullBlogData();
+        if (!Search.serverRender || !this.props.fetchData.Json) {
+			_self.pullBlogData();
+		}
     }
 
-	pullBlogData(){
-		this.props.fetchPosts('http://qqweb.top/API/BlogApi/Query',{PageIndex:this.page,key:this.searchValue || ''});
+	pullBlogData(page){
+		this.props.fetchPosts('http://qqweb.top/API/BlogApi/Query',{PageIndex:page || ++this.props.fetchData.param.PageIndex,key:this.searchValue || ''});
 	}
 
 	Query(){
-		this.page = 1;
 		this.searchValue = this.refs.keyname.value;
-		this.pullBlogData();
+		this.pullBlogData(1);
 	}
 
 	userChange(e){
@@ -91,6 +53,7 @@ export default class Search extends Component{
 	}
 
 	render(){
+		let fetchData = this.props.fetchData;
 		return (
 			<div className = "searchbox">
 				<div className = "head" >
@@ -105,25 +68,26 @@ export default class Search extends Component{
 				<div className = "listbox">
 					<ul className = "list" >
 					{
-						(this.bloglist.length > 0) && this.bloglist.map(item => {
-							return 	<li key = {item.ID} className = "item" >
-										<Link to={'/detail/' + item.ID} className = "clickarea">
-											<div className = "contenthead">
-												<div className = "title">{item.Title}</div>
-												<div className = "tag">分类:{item.SortName}</div>
-											</div>
-											<p className = "content">{item.Content}</p>
-											<div className = "information">
-												<span className = "time">浏览:{item.PageViewTotal}</span>
-												<span className = "author">{DateTool.ChangeDateFormat(item.UpdateTime)}</span>
-											</div>
-										</Link>
-									</li>
+						(fetchData.Json && fetchData.Json.BlogWorkList && fetchData.Json.BlogWorkList.length > 0) && 
+							fetchData.Json.BlogWorkList.map(item => {
+								return 	<li key = {item.ID} className = "item" >
+											<Link to={'/detail/' + item.ID} className = "clickarea">
+												<div className = "contenthead">
+													<div className = "title">{item.Title}</div>
+													<div className = "tag">分类:{item.SortName}</div>
+												</div>
+												<p className = "content">{item.Content}</p>
+												<div className = "information">
+													<span className = "time">浏览:{item.PageViewTotal}</span>
+													<span className = "author">{DateTool.ChangeDateFormat(item.UpdateTime)}</span>
+												</div>
+											</Link>
+										</li>
 						})
 					}	
 					</ul>
 					{
-						this.imgLoading ?  <Eat/> : <div className = "bottominfo" >--- 我是有底线的 ---</div>
+						fetchData.imgLoading ?  <Eat/> : <div className = "bottominfo" >--- 我是有底线的 ---</div>
 					}
 				</div>
 			</div>

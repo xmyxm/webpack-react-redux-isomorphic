@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { HashRouter as Router, StaticRouter, MemoryRouter, Route, Switch, LinkS, Redirect} from 'react-router-dom';
+import { HashRouter as Router, StaticRouter, MemoryRouter, Route, Switch, LinkS, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
@@ -25,7 +25,10 @@ const store = finalCreateStore(reducers, initialState);
 //function async 
 
 export default async function (ctx) {
-  let Moudel, moudelName = ctx.url.replace(/\//g, '').toLowerCase();
+  let Moudel, moudelName = ctx.url.replace(/(\/|[0-9])/g, '').toLowerCase();
+  if (moudelName == 'favicon.ico') {
+    return ctx.body = '';
+  }
   console.log(moudelName);
   switch (moudelName) {
     case 'home':
@@ -40,6 +43,12 @@ export default async function (ctx) {
     case 'list':
       Moudel = List;
       break;
+    case 'detail':
+      Moudel = Detail;
+      break;
+    case 'search':
+      Moudel = Search;
+      break;
     default:
       Moudel = Home;
       break;
@@ -47,44 +56,21 @@ export default async function (ctx) {
 
   let reqQueue = [Header.serverRender(store)];
   if (Moudel.serverRender) {
-    reqQueue.push(Moudel.serverRender(store));
+    reqQueue.push(Moudel.serverRender(store, ctx.url));
   }
 
   await Promise.all(reqQueue);
 
-  //console.log('开始读取store中数据');
   const initData = store.getState();
 
-  // const html = layout(renderToString(
-  //   <Provider store={store}>
-  //     <MemoryRouter location={ctx.url}>
-  //       <div>
-  //         <Header />
-  //         <Moudel />
-  //       </div>
-  //     </MemoryRouter>
-  //   </Provider>
-  // ), initData);
-
-    const html = layout(renderToString(
+  const html = layout(renderToString(
     <Provider store={store}>
-      <StaticRouter location={ctx.url} context={{}}>
-        <div className = "blogbox">
-            <Header/>
-            <Switch>
-                <Route path="/" exact component = {Home} ></Route>
-                <Route path="/index.html" exact component = {Home} ></Route>
-                <Route path="/m/index.html" exact component = {Home} ></Route>
-                <Route path="/home" component = {Home} ></Route>
-                <Route path="/list" component = {List} ></Route>
-                <Route path="/search" component = {Search}></Route>
-                <Route path="/detail/:id" component = {Detail} ></Route>
-                <Route path="/me" component = {Me} ></Route>
-                <Route path="/email" component = {Email} ></Route>
-                <Redirect to="/m/index.html" />
-            </Switch>
+      <MemoryRouter location={ctx.url}>
+        <div className="blogbox">
+          <Header />
+          <Moudel />
         </div>
-      </StaticRouter>
+      </MemoryRouter>
     </Provider>
   ), initData);
 

@@ -4,7 +4,6 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');//抽离css样式,防止将样式打包在js中引起页面样式加载错乱的现象
 const webpack = require('webpack');
 const packageFilePath = path.join(__dirname, "../dist");
-const autoprefixer = require('autoprefixer');
 
 module.exports = {
 	entry:{
@@ -32,18 +31,18 @@ module.exports = {
 			},
 			{
 		        test: /\.less$/,
-		        //设置 options: { minimize: true }  会压缩样式
+		        //设置 options: { minimize: true }  会压缩样式,style-loader加载器就是将CSS以内联方式插入到页面文档
 		        use: ExtractTextPlugin.extract({
 		        	use:[{ loader: 'css-loader', options: { minimize: true } },'postcss-loader','less-loader']
-		        	,fallback: 'style-loader'//style-loader加载器就是将CSS以内联方式插入到页面文档
-		        })
+		        	,fallback: 'style-loader'})
+		        //['style-loader',{ loader: 'css-loader', options: { minimize: true } },'postcss-loader','less-loader']
 		    },
 			{
 				test: /\.scss$/,
 				use: ExtractTextPlugin.extract({
 					use:[{ loader: 'css-loader', options: { minimize: true } },'postcss-loader','sass-loader']
-					,fallback: 'style-loader'
-				})
+					,fallback: 'style-loader'}) 
+				//['style-loader', { loader: 'css-loader', options: { minimize: true } },'postcss-loader','sass-loader']
 			},
 	        {
                 test: /\.(png|jpg|jpeg|gif)$/,
@@ -70,6 +69,7 @@ module.exports = {
 		]
 	},
 	plugins:[
+		new webpack.BannerPlugin('晨曦沐枫作品，欢迎学习交流'),//打包后代码版权申明插件
 		new CleanPlugin(['dist', 'build']),//每次打包清理上次的打包文件
 		new webpack.optimize.CommonsChunkPlugin({
 				// manifest文件用来引导所有模块的交互。manifest文件包含了加载和处理模块的逻辑。
@@ -82,31 +82,14 @@ module.exports = {
 		new HtmlWebpackPlugin({
 				template:'./src/html/index.html'
 				,filename:'index.html'//可以使用hash命名
-				,title:'大众点评 推荐菜详情'
+				,title:'前端栈'
 				,inject:'body'//脚本包含到body 也可以写到head里面
 				,chunks:['index','common','manifest']//指定当前模板需要打入哪些js模块
 				,minify:{//启用代码代码压缩
 					removeComments:true,//移除注释
 					collapseWhitespace:true//移除空格
 				}
-			}),
-		// new webpack.LoaderOptionsPlugin({
-		// 	// options: {
-		// 	// 	postcss: function () {
-		// 	// 		return [precss, autoprefixer];//处理css兼容性代码，无须再写-webkit之类的浏览器前缀
-		// 	// 	}
-		// 	// }
-		// 	options: {
-		//         postcss: [
-		//           autoprefixer({
-		//             browsers: [
-		//               '>1%'
-		//             ]
-		//           })
-		//         ]
-		//     }
-		// })
-		//,new ExtractTextPlugin({ filename: 'css/[name].css', disable: false, allChunks: true })
+			})
 	],
     resolve:{
         //别名设置,主要是为了配和webpack.ProvidePlugin设置全局插件;
@@ -133,16 +116,6 @@ module.exports = {
 	    }
 	}
 }
-
-
-
-//img处理
-//url-loader 可以根据自定义文件大小或者转化为 base64 格式的 dataUrl, 或者单独作为文件, 也可以自定义对应的hash 文件名
-//file-loader 默认情况下会根据图片生成对应的 MD5hash 的文件格式
-//image-webpack-loader 提供压缩图片的功能
-
-
-
 
 
 

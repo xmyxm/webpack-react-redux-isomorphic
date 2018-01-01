@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { fetchPosts } from './list_action.js';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import DateTool from '../utils/date-format.js';
+import DateTool from 'utils/date-format.js';
 import Eat from '../animation/eat.jsx';
 import './list.less';
 

@@ -3,7 +3,7 @@ import React,{Component} from 'react';
 import {withRouter} from "react-router-dom";
 import {fetchPosts} from './detail_action.js';
 import {connect} from 'react-redux';
-import DateTool from '../utils/date-format.js';
+import DateTool from 'utils/date-format.js';
 import Cube from '../animation/cube.jsx';
 import './detail.less';
 

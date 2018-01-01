@@ -4,11 +4,11 @@
   "description": "xmyxm",
   "main": "index.js",
   "scripts": {
-    "test": "webpack --config ./webpack/webpack.beta.config.js",
+    "test": "webpack --config ./webpack/webpack.web.beta.config.js",
     "start": "node server.js",
-    "build": "webpack --config ./webpack/webpack.pro.config.js",
-    "server": "webpack --config ./webpack/webpack.server.config.js",
-    "st": "webpack --config ./webpack/webpack.server.config.js && node app.js"
+    "build": "webpack --config ./webpack/webpack.web.pro.config.js",
+    "server": "webpack --config ./webpack/webpack.server.beta.config.js",
+    "st": "webpack --config ./webpack/webpack.server.beta.config.js && node app.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
     "isomorphic-fetch": "^2.2.1",
     "koa": "^2.3.0",
     "koa-router": "^7.2.1",
+    "node-noop": "^1.0.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.5",

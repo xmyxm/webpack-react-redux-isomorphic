@@ -26,6 +26,8 @@ const server = new WebpackDevServer(compiler, config.devServer);
 server.listen(port, host, (err)=>{
 	if(err){
 		console.log('启动出错：' + err);
+	}else{
+		console.log('编译开始，静态资源监听服务webpack-dev-server启动成功！访问地址：http://' + host + ':' + port);
 	}
 	//open('http://' + host + ':' + port + '/index.html');
 });

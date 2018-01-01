@@ -4,7 +4,7 @@ const defaultlState = {
     istrue: false,
     isFetching: false,
     imgLoading: true,
-    param: {}
+    param: null
 };
 //首次渲染时获取数据
 const ListData = (state = { ...defaultlState }, action = {}) => {

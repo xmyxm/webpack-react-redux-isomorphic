@@ -4,12 +4,11 @@
   "description": "xmyxm",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "webpack --config ./webpack/webpack.beta.config.js",
     "start": "node server.js",
     "build": "webpack --config ./webpack/webpack.pro.config.js",
     "server": "webpack --config ./webpack/webpack.server.config.js",
-    "test": "webpack --config ./webpack/webpack.beta.config.js",
-    "st":"webpack --config ./webpack/webpack.server.config.js && node app.js"
+    "st": "webpack --config ./webpack/webpack.server.config.js && node app.js"
   },
   "repository": {
     "type": "git",

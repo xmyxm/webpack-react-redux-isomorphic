@@ -15,7 +15,7 @@ let babelPluginsArr = [
 ];
 
 module.exports = {
-    // 构建输出node可以识别的内容
+    // 告诉 webpack 打包的对象是 node 端的代码，这样一些原生模块webpack 就不会做处理
     target: 'node',  
     node: {
         __filename: true,

@@ -1,12 +1,15 @@
 import ReactDOM from 'react-dom';
 import React,{Component} from 'react';
-import {withRouter} from "react-router-dom";
+import {withRouter, Link} from "react-router-dom";
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
 import {fetchPosts} from './header_action.js';
 import './header.less';
 
-@connect(state => {return {fetchData:state.HeaderData}},{fetchPosts})
+const dataurl = 'http://qqweb.top/API/BlogApi/AdminUser'
+
+@connect(state => {return {
+	headerData:state.Header.headerData
+}},{fetchPosts})
 class Header extends Component{
 	constructor(props){
 		super(props);
@@ -14,29 +17,12 @@ class Header extends Component{
 	}
 
 	static serverRender(store) {
-		return fetchPosts('http://qqweb.top/API/BlogApi/AdminUser')(store.dispatch);
-	}
-
-	shouldComponentUpdate(nextProps, nextState){
-		if(nextProps.fetchData){
-    		if(nextProps.fetchData.isFetching) {
-    			this.dataloading = true;
-    			return false;
-    		}
-    		this.dataloading = false;
-    		if(nextProps.fetchData.Json){
-	    		let data = nextProps.fetchData.Json;
-				if(data && data.ID > 0){
-					this.data = data;
-				}
-    		}
-    	}
-    	return true;
+		return fetchPosts(dataurl)(store.dispatch)
 	}
 
 	componentDidMount(){
-		if (!Header.serverRender || !this.props.fetchData.Json) {
-			this.props.fetchPosts('http://qqweb.top/API/BlogApi/AdminUser');
+		if(!this.props.headerData){
+			this.props.fetchPosts(dataurl)
 		}
 	}
 
@@ -55,6 +41,10 @@ class Header extends Component{
 	}
 
 	render(){
+		const {headerData} = this.props
+		if(!headerData){
+			return null
+		}
 		return (
 			<div className = "header" >
 				<header className = "topbtn" >

@@ -1,52 +1,62 @@
 import ReactDOM from 'react-dom';
 import React,{Component} from 'react';
 import {Link} from 'react-router-dom';
-import {fetchPosts} from './search_action.js';
 import {connect} from 'react-redux';
-import DateTool from 'utils/date-format.js';
+import {fetchPosts, saveScrollTop} from './search_action.js';
+import DateTool from 'utilspath/date-format.js';
 import Eat from '../animation/eat.jsx';
 import './search.less';
 
-@connect(state => {return {fetchData:state.SearchData}},{fetchPosts})
+const dataurl = 'http://qqweb.top/API/BlogApi/Query'
+
+@connect(state => {return {
+	searchData:state.Search.searchData,
+	top: state.Search.top,
+	isFetching: state.Search.isFetching,
+	param: state.Search.param,
+	dataMore: state.Search.dataMore
+}},{fetchPosts, saveScrollTop})
 export default class Search extends Component{
 	constructor(props){
-		super(props);
+		super(props)
 	}
 
 	static serverRender(store,url) {
-		return fetchPosts('http://qqweb.top/API/BlogApi/Query',{PageIndex:1,key:''})(store.dispatch);
+		return fetchPosts(dataurl,{PageIndex:1,key:''})(store.dispatch);
 	}
 
 	componentWillUnmount() {
-		window.onscroll = null;
+		window.onscroll = null
+		var top = document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset
+		this.props.saveScrollTop(top)
 	}
 
     componentDidMount(){
-    	let _self = this;
+    	let _self = this
+    	if(_self.props.top)window.scrollTo(0, _self.props.top)
+
 		window.onscroll = (e) => { 
-            if (!_self.props.fetchData.imgLoading || _self.props.fetchData.isFetching) return;
-            let alltop = (document.body.scrollTop || document.documentElement.scrollTop) + window.innerHeight + 150;
+            if (!_self.props.dataMore || _self.props.isFetching) return
+            let alltop = (document.body.scrollTop || document.documentElement.scrollTop) + window.innerHeight + 200
             if (alltop > document.body.scrollHeight) {
-                _self.pullBlogData();
+            	let PageIndex = _self.props.searchData && _self.props.searchData.PageIndex ? ++ _self.props.searchData.PageIndex : 1
+                _self.pullBlogData({PageIndex : PageIndex, key : this.refs.keyname.value})
             }
         }
-        if (!Search.serverRender || !this.props.fetchData.Json) {
-			_self.pullBlogData();
-		}
+        !_self.props.searchData && _self.pullBlogData({PageIndex: 1, key: ''})
     }
 
-	pullBlogData(page){
-		let PageIndex = page || (this.props.fetchData.param ? ++this.props.fetchData.param.PageIndex : 1);
-		this.props.fetchPosts('http://qqweb.top/API/BlogApi/Query',{PageIndex:PageIndex,key:this.searchValue || ''});
+	pullBlogData(param){
+		this.props.fetchPosts(dataurl, param)
 	}
 
 	Query(){
-		this.searchValue = this.refs.keyname.value;
-		this.pullBlogData(1);
+		this.searchValue = this.refs.keyname.value
+		this.pullBlogData({PageIndex: 1, key: this.refs.keyname.value})
 	}
 
 	userChange(e){
-		if(this.refs.keyname.value != this.searchValue)this.Query();
+		if(this.refs.keyname.value != this.searchValue)this.Query()
 	}
 
 	userKeyup(e){
@@ -54,13 +64,20 @@ export default class Search extends Component{
 	}
 
 	render(){
-		let fetchData = this.props.fetchData;
+		const {searchData, isFetching, dataMore, param} = this.props
+
 		return (
 			<div className = "searchbox">
 				<div className = "head" >
 					<div className = "searchtext" >搜索更懂你！</div>
 					<div className="searchinfo">
-						<input type = "text" name="keyname" onKeyUp = {this.userKeyup.bind(this)} onChange = {this.userChange.bind(this)} className="keytext" ref = "keyname" />
+						<input type = "text" 
+						name = "key" 
+						onKeyUp = {this.userKeyup.bind(this)} 
+						onChange = {this.userChange.bind(this)} 
+						value = {param && param.key ? param.key : ''}
+						className ="keytext" 
+						ref = "keyname" />
 						<i className = "so" ></i>
 						<i className = "del" ></i>
 						<div className = "searchbtn" onClick = {this.Query.bind(this)} >搜索</div>
@@ -69,26 +86,26 @@ export default class Search extends Component{
 				<div className = "listbox">
 					<ul className = "list" >
 					{
-						(fetchData.Json && fetchData.Json.BlogWorkList && fetchData.Json.BlogWorkList.length > 0) && 
-							fetchData.Json.BlogWorkList.map(item => {
+						(searchData && searchData.BlogWorkList && searchData.BlogWorkList.length > 0) && 
+							searchData.BlogWorkList.map(item => {
 								return 	<li key = {item.ID} className = "item" >
-											<Link to={'/detail/' + item.ID} className = "clickarea">
-												<div className = "contenthead">
-													<div className = "title">{decodeURIComponent(item.Title)}</div>
-													<div className = "tag">分类:{item.SortName}</div>
-												</div>
-												<p className = "content"></p>
-												<div className = "information">
-													<span className = "time">浏览:{item.PageViewTotal}</span>
-													<span className = "author">{DateTool.ChangeDateFormat(item.UpdateTime)}</span>
-												</div>
-											</Link>
-										</li>
+										<Link to={'/detail/' + item.ID} className = "clickarea">
+											<div className = "contenthead">
+												<div className = "title">{item.Title}</div>
+												<div className = "tag">分类:{item.SortName}</div>
+											</div>
+											<p className = "content">{item.Content}</p>
+											<div className = "information">
+												<span className = "time">浏览:{item.PageViewTotal}</span>
+												<span className = "author">{DateTool.ChangeDateFormat(item.UpdateTime)}</span>
+											</div>
+										</Link>
+									</li>
 						})
 					}	
 					</ul>
 					{
-						fetchData.imgLoading ?  <Eat/> : <div className = "bottominfo" >--- 我是有底线的 ---</div>
+						dataMore ?  <Eat/> : <div className = "bottominfo" >--- 我是有底线的 ---</div>
 					}
 				</div>
 			</div>

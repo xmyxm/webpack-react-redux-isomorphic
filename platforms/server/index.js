@@ -42,8 +42,8 @@ export default async function (ctx) {
       <MemoryRouter location={ctx.url}>
         <div className="blogbox">
           {
-            commponentAry.map(item => {
-              return item
+            commponentAry.map(Item => {
+              return <Item/>
             })
           }
         </div>

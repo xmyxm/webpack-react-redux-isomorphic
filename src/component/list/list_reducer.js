@@ -1,46 +1,50 @@
-import { LIST_REQUEST_POSTS, LIST_RESOLVE_POSTS, LIST_REJECT_POSTS } from './list_action.js'
+import {LIST_REQUEST_POSTS, LIST_RESOLVE_POSTS, LIST_REJECT_POSTS, LIST_SAVE_SCROLLTOP} from './list_action.js'
 
-const defaultlState = {
-    istrue: false,
-    isFetching: false,
-    imgLoading: true,
-    param: null
-};
+const defaultlState = {listData: null, isFetching: false, dataMore: true, top : 0}
 //首次渲染时获取数据
-const ListData = (state = { ...defaultlState }, action = {}) => {
-    switch (action.type) {
-
+const List = (state = defaultlState , action = {}) => {
+    let _data,dataMore
+    switch(action.type){
         case LIST_REQUEST_POSTS:
-            state.isFetching = true;
-            state.param = action.param;
-            return { ...state };
+            return {
+                ...state
+                ,isFetching : true
+            }
 
         case LIST_RESOLVE_POSTS:
-            //debugger;
-            state.isFetching = false;
-            let data = action.json;
-            if (data && data.TotalCount) {
-                if (data.PageIndex * data.PageSize >= data.TotalCount) {
-                    state.imgLoading = false;
-                } else {
-                    state.imgLoading = true;
-                }
-                if (state.Json && state.Json.BlogWorkList) {
-                    state.Json.BlogWorkList = state.Json.BlogWorkList.concat(action.json.BlogWorkList);
-                } else {
-                    state.Json = { BlogWorkList: data.BlogWorkList };
-                }
-                state.istrue = true;
+            _data = action.json
+            if(_data.PageIndex * _data.PageSize >= _data.TotalCount){
+                dataMore = false
+            }else{
+                dataMore = true
             }
-            return { ...state };//请求成功,返回一个新的state
+            if(state.listData && state.listData.BlogWorkList && state.listData.BlogWorkList.length && _data.BlogWorkList){
+                _data.BlogWorkList = _data.BlogWorkList = state.listData.BlogWorkList.concat(_data.BlogWorkList)
+            }
+            return {
+                ...state,
+                listData: _data,
+                isFetching: false,
+                dataMore: dataMore
+            }
 
         case LIST_REJECT_POSTS:
-            return Object.assign({}, state, { 'istrue': false, 'isFetching': false });//请求失败，返回一个新的state
+            return {
+                ...state,
+                isFetching:false
+            }
+
+        case LIST_SAVE_SCROLLTOP:
+            state.top = action.top
+            return state
 
         default:
-            return state;
+            return state
     }
 }
 
-export default ListData;
+export default List
+
+
+
 

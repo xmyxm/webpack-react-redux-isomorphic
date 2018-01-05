@@ -1,43 +1,47 @@
-import { SEARCH_REQUEST_POSTS, SEARCH_RESOLVE_POSTS, SEARCH_REJECT_POSTS } from './search_action.js'
+import {SEARCH_REQUEST_POSTS, SEARCH_RESOLVE_POSTS, SEARCH_REJECT_POSTS, SEARCH_SAVE_SCROLLTOP} from './search_action.js'
 
-const defaultlState = {
-    istrue: false,
-    isFetching: false,
-    imgLoading: true
-};
-
+const defaultlState = {searchData: null, top : 0, isFetching: false, dataMore: true, param: null}
 //首次渲染时获取数据
-const SearchData = (state = defaultlState, action = {}) => {
-    switch (action.type) {
+const Search = (state = defaultlState , action = {}) => {
+    let _data,dataMore
+    switch(action.type){
         case SEARCH_REQUEST_POSTS:
-            state.isFetching = true;
-            state.param = action.param;
-            return { ...state };
-
-        case SEARCH_RESOLVE_POSTS://debugger;
-            state.isFetching = false;
-            let data = action.json;
-            if (data && data.TotalCount) {
-                if (data.PageIndex * data.PageSize >= data.TotalCount) {
-                    state.imgLoading = false;
-                } else {
-                    state.imgLoading = true;
-                }
-                if (state.Json && state.Json.BlogWorkList) {
-                    state.Json.BlogWorkList = state.Json.BlogWorkList.concat(action.json.BlogWorkList);
-                } else {
-                    state.Json = { BlogWorkList: data.BlogWorkList };
-                }
-                state.istrue = true;
+            return {
+                ...state,
+                isFetching:true,
+                param:action.param
             }
-            return { ...state };//请求成功,返回一个新的state
+        case SEARCH_RESOLVE_POSTS://debugger;
+            _data = action.json
+            if(_data.PageIndex * _data.PageSize >= _data.TotalCount){
+                dataMore = false
+            }else{
+                dataMore = true
+            }
+            if(_data.PageIndex != 1 && state.searchData && state.searchData.BlogWorkList && state.searchData.BlogWorkList.length){
+                _data.BlogWorkList = state.searchData.BlogWorkList.concat(_data.BlogWorkList)
+            }
+            return {
+                ...state,
+                searchData: _data,
+                isFetching: false,
+                dataMore: dataMore
+            }
 
         case SEARCH_REJECT_POSTS:
-            return Object.assign({}, state, { 'istrue': false, 'isFetching': false });//请求失败，返回一个新的state
+            return {
+                ...state,
+                isFetching:false
+            }
+
+        case SEARCH_SAVE_SCROLLTOP:
+            state.top = action.top
+            return state
+
         default:
             return state;
     }
 }
 
-export default SearchData;
+export default Search
 

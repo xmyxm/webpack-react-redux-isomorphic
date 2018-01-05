@@ -1,4 +1,4 @@
-import { paramToStr } from '../../utils/url-data.js';
+import { paramToStr } from 'utilspath/url-data.js';
 import fetch from 'isomorphic-fetch';
 
 export const DETAIL_REQUEST_POSTS = 'DETAIL_REQUEST_POSTS';//发送请求
@@ -46,12 +46,11 @@ export const fetchPosts = (path, postData) => {
                 if (response.ok) {
                     return Promise.resolve(response.json().then(
                         json => {
-                            json.DetailContent.Content = encodeURIComponent(json.DetailContent.Content);
                             return Promise.resolve(dispatch(resolvePosts(path, json)))
                         }
                     ))
                 } else {
-                    console.log(`redux action fetch 拉取数据失败,code: ${response.status},错误信息: ${response.statusText}`);
+                    console.log("redux action fetch 拉取数据失败", response.status);
                 }
             })
             .catch(error => dispatch(rejectPosts(path, error)))

@@ -9,11 +9,11 @@ import Detail from '../../src/component/detail/detail.jsx';
 
 export default {
 	'/home' : [Header,Home],
-	'/list' : [List,Home],
-	'/detail' : [Detail,Home],
-	'/search' : [Search,Home],
-	'/email' : [Email,Home],
-	'/me' : [Me,Home]
+	'/list' : [Header,List],
+	'/detail' : [Header,Detail],
+	'/search' : [Header,Search],
+	'/email' : [Header,Email],
+	'/me' : [Header,Me]
 }
 
 

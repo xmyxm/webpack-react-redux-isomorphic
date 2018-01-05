@@ -6,7 +6,7 @@ let config=require('./webpack.web.base.config.js');
 config.plugins = config.plugins||[];
 config.plugins.push(
 	//css 文件抽离设置 如为dev 环境 disable必须为 true 才会把 css 打为内联样式来实现热刷新，若线上环境必须disable必须为false才会单独抽离出css文件
-	new ExtractTextPlugin({ filename: 'css/[name].css', disable: true, allChunks: true })
+	new ExtractTextPlugin({ filename: 'css/[name].css', disable: false, allChunks: true })
 );
 config.plugins.push(
 	//允许你创建一个在编译时可以配置的全局常量，只能在被打包的文件中读取到这个全局变量

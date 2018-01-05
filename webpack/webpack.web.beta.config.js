@@ -1,7 +1,7 @@
 "use strict";
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-let config=require('./webpack.base.config.js');
+let config=require('./webpack.web.base.config.js');
 
 config.plugins = config.plugins||[];
 config.plugins.push(

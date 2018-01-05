@@ -15,7 +15,7 @@ exports.layout = function(content, data) {
         <meta name="format-detection" content="telephone=no">
         <meta name="format-detection" content="email=no"/>
         <link rel="stylesheet" type="text/css" href="http://qqweb.top/dist/css/wangEditor.css">
-        <link href="http://localhost:9000/css/index.css" rel="stylesheet">
+        <link href="http://127.0.0.1:9000/css/index.css" rel="stylesheet">
         <script type="text/javascript">
             (function(doc, win) {
                 var fontSize,docEl = doc.documentElement,
@@ -37,9 +37,9 @@ exports.layout = function(content, data) {
     <body>
         <div id="app"><div class="blogbox">${content}</div></div>
         <script type="text/javascript">window.__REDUX_DATA__ = '${JSON.stringify(data).replace(/'/g,"\\'")}';</script>
-        <script type="text/javascript" src="http://localhost:3000/js/manifest.js"></script>
-        <script type="text/javascript" src="http://localhost:3000/js/common.js"></script>
-        <script type="text/javascript" src="http://localhost:3000/js/index.js"></script>
+        <script type="text/javascript" src="http://127.0.0.1:9000/js/manifest.js"></script>
+        <script type="text/javascript" src="http://127.0.0.1:9000/js/common.js"></script>
+        <script type="text/javascript" src="http://127.0.0.1:9000/js/index.js"></script>
     </body>
     </html>
 `;

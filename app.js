@@ -1,11 +1,11 @@
 const Koa = require('koa');
 const Router = require('koa-router');
 const open = require("open");
-const render = require('./dist/index.js')
+const render = require('./dist/server/index.js')
 
 const app = new Koa();
 const router = new Router();
-const port = 9000;
+const port = 3000;
 const host = '127.0.0.1';
 
 
@@ -17,7 +17,11 @@ app.use(async (ctx, next) => {
 });
 app.use(router.routes());
 
-router.get(/^\/.*/,
+// router.get(/^\/.*/,
+//     render.default
+// );
+
+router.get(/^\/(home|list|me|search)/,
     render.default
 );
 

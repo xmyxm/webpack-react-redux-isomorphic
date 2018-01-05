@@ -100,12 +100,17 @@ module.exports = {
         }
     },
 	devServer: {
+		headers: {
+            'Access-Control-Allow-Origin': '*'
+        },
+        // 本地node-server的host，如需调整自行修改
+        //public: 'local.51ping.com:8080',
 		contentBase: packageFilePath,
 		watchContentBase:true,//告诉服务器监视那些通过 devServer.contentBase 选项提供的文件。文件改动将触发整个页面重新加载。默认被禁用。
 		compress: true,//一切服务都启用gzip 压缩：
 		inline: true,//应用程序启用内联模式,默认内联模式
 		hot: true,//启用 webpack 的模块热替换特性
-		host:'localhost',//指定使用一个 host。默认是 localhost。如果你希望服务器外部可访问，指定为ip
+		host:'127.0.0.1',//指定使用一个 host。默认是 localhost。如果你希望服务器外部可访问，指定为ip
 		stats:{colors: true},// 用颜色标识
 		port: 9000,
 		historyApiFallback:{

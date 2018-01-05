@@ -13,7 +13,7 @@ const host = '127.0.0.1'
 
 module.exports = {
 	entry:{
-		index:['./src/app.jsx']
+		index:['./platforms/browser/index.js']
 		,common:['react','redux']
 	},
 	output:{
@@ -102,7 +102,10 @@ module.exports = {
         alias: {
              //绝对路径;
              action: path.resolve(__dirname,'../src/redux/action'), 
-             utils: path.resolve(__dirname,'../src/utils')
+             utils: path.resolve(__dirname,'../src/utils'),
+             component: path.resolve(__dirname,'../src/component'),
+             style: path.resolve(__dirname,'../src/style'),
+             reduxpath: path.resolve(__dirname,'../src/redux')
         }
     },
 	devServer: {

@@ -5,7 +5,7 @@ const webpack = require("webpack");
 const open = require("open");
 const config = require("./webpack/webpack.web.beta.config.js");
 const port =  config.devServer.port;
-const host = config.devServer.host || '127.0.0.1';
+const host = config.devServer.host;
 const ip = '0.0.0.0';
 
 for (let key in config.entry) {

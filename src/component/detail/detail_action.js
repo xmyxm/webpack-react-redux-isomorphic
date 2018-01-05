@@ -46,6 +46,10 @@ export const fetchPosts = (path, postData) => {
                 if (response.ok) {
                     return Promise.resolve(response.json().then(
                         json => {
+                            if(json.DetailContent){
+                                json.DetailContent.Content = encodeURIComponent(json.DetailContent.Content)
+                                json.DetailContent.Tag = encodeURIComponent(json.DetailContent.Tag)
+                            }
                             return Promise.resolve(dispatch(resolvePosts(path, json)))
                         }
                     ))

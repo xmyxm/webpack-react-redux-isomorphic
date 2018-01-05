@@ -39,7 +39,10 @@ class Detail extends Component{
 
 	render(){
 		const {detailData,isFetching} = this.props
+		if(!detailData) return null
 		
+		detailData.DetailContent.Tag = decodeURIComponent(detailData.DetailContent.Tag)
+
 		return (
 			 <div className = "detailbox">
 				{
@@ -49,7 +52,7 @@ class Detail extends Component{
 							<div className = "text">{detailData.DetailContent.Title}</div>
 							<div className = "option">写于 {DateTool.ChangeDateFormat(detailData.DetailContent.CreateTime)} | 分类于 {detailData.DetailContent.SortName}</div>
 				 		</div>
-					 	<div className = "content" dangerouslySetInnerHTML={this.createMarkup(detailData.DetailContent.Content)}></div>
+					 	<div className = "content" dangerouslySetInnerHTML={this.createMarkup(decodeURIComponent(detailData.DetailContent.Content))}></div>
 					 	<div className = "tag">
 					 		<span className = "mr6">我的标签: </span>
 						 	{

@@ -66,6 +66,8 @@ export default class Search extends Component{
 	render(){
 		const {searchData, isFetching, dataMore, param} = this.props
 
+		if(!searchData) return null
+
 		return (
 			<div className = "searchbox">
 				<div className = "head" >

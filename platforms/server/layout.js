@@ -5,7 +5,7 @@
 exports.layout = function(content, data) {
     return `
     <!DOCTYPE html>
-    <html lang="en" style="font-size: 10px;">
+    <html lang="en" style="font-size: 12px;">
     <head>
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">

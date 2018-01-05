@@ -17,18 +17,15 @@ app.use(async (ctx, next) => {
 });
 app.use(router.routes());
 
-// router.get(/^\/.*/,
-//     render.default
-// );
-
 router.get(/^\/(home|list|me|search)/,
     render.default
 );
 
 app.listen(port);
 
-console.log('开始监听：');
-const url = 'http://' + host + ':' + port + '/list';
-console.log('打开默认页面: ' + url);
+const url = 'http://' + host + ':' + port + '/list'
+console.log('已开启端口: '+ port +' 监听,打开默认页面: ' + url)
 open(url);
+
+
 

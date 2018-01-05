@@ -11,10 +11,6 @@ import router from './router.js';
 const initialState = {}
 const middleware = [thunk]
 const finalCreateStore = applyMiddleware(...middleware)(createStore)
-
-
-console.log('～～～～～～～～～输出看看～～～～～～～～～～～～')
-console.log(router)
 const routers = Object.keys(router)
 
 export default async function (ctx) {

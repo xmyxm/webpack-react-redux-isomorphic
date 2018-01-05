@@ -8,12 +8,12 @@ import Detail from '../../src/component/detail/detail.jsx';
 
 
 export default {
-	'^/home' : [Header,Home],
-	'^/list' : [List,Home],
-	'^/detail' : [Detail,Home],
-	'^/search' : [Search,Home],
-	'^/email' : [Email,Home],
-	'^/me' : [Me,Home]
+	'/home' : [Header,Home],
+	'/list' : [List,Home],
+	'/detail' : [Detail,Home],
+	'/search' : [Search,Home],
+	'/email' : [Email,Home],
+	'/me' : [Me,Home]
 }
 
 

@@ -17,7 +17,7 @@ app.use(async (ctx, next) => {
 });
 app.use(router.routes());
 
-router.get(/^\/(home|list|me|search)/,
+router.get(/^\/(home|list|me|search|email)/,
     render.default
 );
 

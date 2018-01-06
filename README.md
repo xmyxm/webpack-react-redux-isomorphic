@@ -3,6 +3,7 @@ react同构应用
 基于react的单页应用脚手架
 
 依赖主要组件如下：
+
 react 16.x
 
 react-router 4.x
@@ -11,10 +12,14 @@ redux 3.x
 
 react-redux 5.x
 
+
 说明：
+
 事例为一个单页同构博客项目
 
+
 特点：
+
 1.基本跟随使用目前最新的react全家桶
 
 2.基于node端渲染，方便SEO
@@ -23,7 +28,9 @@ react-redux 5.x
 
 3.项目功能简单完整，是一个简单的脚手架，可以改写为自己的项目，非常适合新手学习，可作为react入门demo
 
+
 使用步骤：
+
 git clone 本项目
 
 运行本项目依次在三个命令窗口依次执行下面三个命令即可：
@@ -43,6 +50,8 @@ git clone 本项目
 说明：
 
 此项目 线上访问地址(单页应用，因为非node环境所以非同构，部署于iis服务器) http://qqweb.top/m/index.html
+
+
 
 关于作者
   var info = {

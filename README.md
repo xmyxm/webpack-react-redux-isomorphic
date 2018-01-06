@@ -26,7 +26,6 @@ react-redux 5.x
 使用步骤：
 git clone 本项目
 
-<<<<<<< HEAD
 运行本项目依次在三个命令窗口依次执行下面三个命令即可：
 
 1. npm run startweb web端代码打包并启动webpack-dev-server服务
@@ -44,15 +43,6 @@ git clone 本项目
 说明：
 
 此项目 线上访问地址(单页应用，因为非node环境所以非同构，部署于iis服务器) http://qqweb.top/m/index.html
-=======
-直接运行 npm start 会自动打开网页浏览此demo
-
-直接运行 npm run build 会打包线上包
-
-直接运行 npm run testbuild 会打包测试包
-
-此项目 线上访问地址 http://qqweb.top/m/index.html
->>>>>>> 4ffe9f87fbedcde6a7c1bb84c3fb821d36d2913a
 
 关于作者
   var info = {

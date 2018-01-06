@@ -1,4 +1,3 @@
-import ReactDOM from 'react-dom';
 import React,{Component} from 'react';
 import {withRouter, Link} from "react-router-dom";
 import {connect} from 'react-redux';
@@ -64,19 +63,19 @@ class Header extends Component{
 						</div>
 						<nav className = "nav">
 							<ul>
-								<li className = "item">
+								<li key = "home" className = "item">
 									<div className = "iconbase homegray" ></div>
 									<Link to="/home" className = "name" >主页</Link>
 								</li>
-								<li className = "item">
+								<li key = "blog" className = "item">
 									<div className = "iconbase bloggray" ></div>
 									<Link to="/list" className = "name" >博客</Link>
 								</li>
-								<li className = "item">
+								<li key = "as" className = "item">
 									<div className = "iconbase usergray" ></div>
 									<Link to="/me" className = "name" >关于</Link>
 								</li>
-								<li className = "item">
+								<li key = "email" className = "item">
 									<div className = "iconbase emailgray" ></div>
 									<Link to="/email" className = "name" >联系</Link>
 								</li>

@@ -23,7 +23,7 @@ router.get(/^\/(home|list|me|search|email|detail)/,
 
 app.listen(port);
 
-const url = 'http://' + host + ':' + port + '/list'
+const url = 'http://' + host + ':' + port + '/home'
 console.log('已开启端口: '+ port +' 监听,打开默认页面: ' + url)
 open(url);
 

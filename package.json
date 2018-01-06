@@ -5,10 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "webpack --config ./webpack/webpack.web.beta.config.js",
-    "start": "node server.js",
+    "start": "node app.js",
     "build": "webpack --config ./webpack/webpack.web.pro.config.js",
-    "server": "webpack --config ./webpack/webpack.server.beta.config.js",
-    "st": "node dev.js && webpack --config ./webpack/webpack.server.beta.config.js"
+    "server": "webpack --config ./webpack/webpack.server.config.js"
   },
   "repository": {
     "type": "git",

@@ -34,11 +34,11 @@ gulp.task('clean', () => del([
 }));
 
 gulp.task('web', cb => {
-    buildWithWebpack('web.beta', cb)
+    buildWithWebpack('web.pro', cb)
 });
 
 gulp.task('server', cb => {
-    buildWithWebpack('server.beta', cb)
+    buildWithWebpack('server', cb)
 });
 
 gulp.task('default', () => {

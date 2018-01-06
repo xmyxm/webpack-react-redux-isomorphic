@@ -3,6 +3,7 @@ const Router = require('koa-router');
 const open = require("open");
 const render = require('./dist/server/index.js')
 const configRouter = require('./config/router.js')
+const print = require('./utils/print.js')
 
 const app = new Koa();
 const router = new Router();
@@ -14,7 +15,7 @@ app.use(async (ctx, next) => {
     const start = new Date()
     await next()
     const ms = new Date() - start
-    console.log(`请求状态监控 ${ctx.method} ${ctx.url} - ${ms}ms`)
+    print.info(`请求状态日志: ${ctx.method} ${ctx.url} 服务端请求响应时间: ${ms}ms`)
 })
 
 app.use(router.routes())
@@ -26,7 +27,7 @@ configRouter.forEach(item => {
 app.listen(port)
 
 const url = 'http://' + host + ':' + port + '/home'
-console.log('已开启端口: '+ port +' 监听,打开默认页面: ' + url)
+print.info('已开启端口: '+ port +' 监听,打开默认页面: ' + url)
 open(url);
 
 

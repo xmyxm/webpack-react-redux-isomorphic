@@ -27,7 +27,7 @@ export default async function (ctx) {
     return ctx.body = '当前url地址不匹配';
   }
 
-  console.log('访问url地址：' + ctx.url)
+  const serverStart = Date.now()
 
   const store = finalCreateStore(reducers, initialState)
   let reqQueue = []
@@ -35,6 +35,10 @@ export default async function (ctx) {
     if (item.serverRender) reqQueue.push(item.serverRender(store, ctx.url))
   })
   await Promise.all(reqQueue)
+
+  const serverTime = Date.now() - serverStart
+
+  const renderStart = Date.now()
 
   const initData = store.getState()
   const html = layout(renderToString(
@@ -51,6 +55,9 @@ export default async function (ctx) {
     </Provider>
   ), initData);
 
+  const renderTime = Date.now() - renderStart
+
+  console.log(`访问url地址：${ctx.url} 数据请求耗时: ${serverTime}ms 渲染耗时: ${renderTime}ms`)
 
   ctx.body = html;
 }

@@ -2,6 +2,7 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const open = require("open");
 const render = require('./dist/server/index.js')
+const configRouter = require('./config/router.js')
 
 const app = new Koa();
 const router = new Router();
@@ -14,14 +15,15 @@ app.use(async (ctx, next) => {
     await next()
     const ms = new Date() - start
     console.log(`请求状态监控 ${ctx.method} ${ctx.url} - ${ms}ms`)
-});
-app.use(router.routes());
+})
 
-router.get(/^\/(home|list|me|search|email|detail)/,
-    render.default
-);
+app.use(router.routes())
 
-app.listen(port);
+configRouter.forEach(item => {
+	router[item.type](new RegExp(item.url),item.method)
+})
+
+app.listen(port)
 
 const url = 'http://' + host + ':' + port + '/home'
 console.log('已开启端口: '+ port +' 监听,打开默认页面: ' + url)

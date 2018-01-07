@@ -6,7 +6,7 @@ import DateTool from 'utilspath/date-format.js';
 import Eat from '../animation/eat.jsx';
 import './list.less';
 
-const dataurl = 'http://qqweb.top/API/BlogApi/WorkList'
+const dataurl = 'http://127.0.0.1:3000/action/list' //'http://qqweb.top/API/BlogApi/WorkList'
 
 @connect(state => {return {
 	listData: state.List.listData,

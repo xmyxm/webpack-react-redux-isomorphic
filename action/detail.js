@@ -1,9 +1,13 @@
 const fetchData = require('../utils/fetchdata.js')
 
-async function header(ctx) {
-    const url = 'http://qqweb.top/API/BlogApi/Detail'
-    
+async function detail(ctx) {
+    const id = ctx.request.query.id
+    const url = `http://qqweb.top/API/BlogApi/Detail?id=${id}`
+    const data = await fetchData(url)
+    ctx.body = data
 }
 
 
-module.exports = header
+module.exports = detail
+
+

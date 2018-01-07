@@ -1,10 +1,13 @@
 const fetchData = require('../utils/fetchdata.js')
 
-async function header(ctx) {
-    const url = 'http://qqweb.top/API/BlogApi/WorkList'
+async function list(ctx) {
+    const index = ctx.request.query.PageIndex
+    const size = ctx.request.query.PageSize
+    const url = `http://qqweb.top/API/BlogApi/WorkList?PageIndex=${index}&PageSize=${size}`
     const data = await fetchData(url)
     ctx.body = data
 }
 
+module.exports = list
 
-module.exports = header
+

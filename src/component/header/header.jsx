@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {fetchPosts} from './header_action.js';
 import './header.less';
 
-const dataurl = 'http://qqweb.top/API/BlogApi/AdminUser'
+const dataurl = 'http://127.0.0.1:3000/action/header' //'http://qqweb.top/API/BlogApi/AdminUser'
 
 @connect(state => {return {
 	headerData:state.Header.headerData

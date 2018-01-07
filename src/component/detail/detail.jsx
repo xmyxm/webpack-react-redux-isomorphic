@@ -6,7 +6,7 @@ import DateTool from 'utilspath/date-format.js';
 import Cube from '../animation/cube.jsx';
 import './detail.less';
 
-const dataurl = 'http://qqweb.top/API/BlogApi/Detail'
+const dataurl = 'http://127.0.0.1:3000/action/detail' //'http://qqweb.top/API/BlogApi/Detail'
 
 @connect(state => {return {
 	detailData:state.Detail.detailData

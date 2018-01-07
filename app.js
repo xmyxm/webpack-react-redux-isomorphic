@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const Router = require('koa-router');
+const koaBody = require('koa-body');
 const open = require("open");
 const render = require('./dist/server/index.js')
 const configRouter = require('./config/router.js')
@@ -17,7 +18,7 @@ app.use(async (ctx, next) => {
     const ms = new Date() - start
     print.info(`请求状态日志: ${ctx.method} ${ctx.url} 服务端请求响应时间: ${ms}ms`)
 })
-
+app.use(koaBody())
 app.use(router.routes())
 
 configRouter.forEach(item => {

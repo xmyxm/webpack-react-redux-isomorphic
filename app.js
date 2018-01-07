@@ -21,12 +21,19 @@ app.use(async (ctx, next) => {
 app.use(router.routes())
 
 configRouter.forEach(item => {
-	router[item.type](new RegExp(item.url),item.method)
+	if(Object.prototype.toString.call(item.type) == '[object Array]'){
+		let reg = new RegExp(item.url)
+		item.type.forEach(val => {
+			router[val](reg,item.method)
+		})
+	}else{
+		router[item.type](new RegExp(item.url),item.method)
+	}
 })
 
 app.listen(port)
 
-const url = 'http://' + host + ':' + port + '/home'
+const url = 'http://' + host + ':' + port + '/action/header'
 print.info('已开启端口: '+ port +' 监听,打开默认页面: ' + url)
 open(url);
 

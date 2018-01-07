@@ -2,16 +2,28 @@
 const render = require('../dist/server/index.js')
 const header = require('../action/header.js')
 const list = require('../action/list.js')
+const detail = require('../action/detail.js')
+const search = require('../action/search.js')
 
 module.exports = [
 	{
-		url : '/header',
+		url : '/action/header',
 		method : header,
+		type : ['get','post']
+	}
+	,{
+		url : '/action/list',
+		method : list,
 		type : 'post'
 	}
 	,{
-		url : '/list',
-		method : list,
+		url : '/action/detail',
+		method : detail,
+		type : 'post'
+	}
+	,{
+		url : '/action/search',
+		method : search,
 		type : 'post'
 	}
 	,{

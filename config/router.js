@@ -7,24 +7,28 @@ const search = require('../action/search.js')
 
 module.exports = [
 	{
-		path : '/action/header',
+		path : '^/action/header',
 		method : header,
-		type : ['get','post']
+		type : ['get','post'],
+		reg: true
 	}
 	,{
-		path : '/action/list',
+		path : '^/action/list',
 		method : list,
-		type : 'post'
+		type : 'post',
+		reg: true
 	}
 	,{
-		path : '/action/detail',
+		path : '^/action/detail',
 		method : detail,
-		type : 'post'
+		type : 'post',
+		reg: true
 	}
 	,{
-		path : '/action/search',
+		path : '^/action/search',
 		method : search,
-		type : 'post'
+		type : 'post',
+		reg: true
 	}
 	,{
 		path : '^/home',

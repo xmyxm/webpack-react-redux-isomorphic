@@ -7,54 +7,60 @@ const search = require('../action/search.js')
 
 module.exports = [
 	{
-		url : '/action/header',
+		path : '/action/header',
 		method : header,
 		type : ['get','post']
 	}
 	,{
-		url : '/action/list',
+		path : '/action/list',
 		method : list,
 		type : 'post'
 	}
 	,{
-		url : '/action/detail',
+		path : '/action/detail',
 		method : detail,
 		type : 'post'
 	}
 	,{
-		url : '/action/search',
+		path : '/action/search',
 		method : search,
 		type : 'post'
 	}
 	,{
-		url : '/home',
+		path : '^/home',
 		method : render.default,
-		type : 'get'
+		type : 'get',
+		reg: true
 	}
 	,{
-		url : '/list',
+		path : '^/list',
 		method : render.default,
-		type : 'get'
+		type : 'get',
+		reg: true
 	}
 	,{
-		url : '/detail',
+		path : '/detail/:id',
 		method : render.default,
-		type : 'get'
+		type : 'get',
+		reg: false
 	}
 	,{
-		url : '/search',
+		path : '^/search',
 		method : render.default,
-		type : 'get'
+		type : 'get',
+		reg: true
 	}
 	,{
-		url : '/email',
+		path : '^/email',
 		method : render.default,
-		type : 'get'
+		type : 'get',
+		reg: true
 	}
 	,{
-		url : '/me',
+		path : '^/me',
 		method : render.default,
-		type : 'get'
+		type : 'get',
+		reg: true
 	}
 ]
 

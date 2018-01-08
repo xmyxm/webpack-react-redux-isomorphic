@@ -13,29 +13,34 @@ const host = '127.0.0.1';
 
 
 app.use(async (ctx, next) => {
-    const start = new Date()
-    await next()
-    const ms = new Date() - start
-    print.info(`请求状态日志: ${ctx.method} ${ctx.url} 服务端请求响应时间: ${ms}ms`)
+	const start = new Date()
+	await next()
+	const ms = new Date() - start
+	print.info(`请求状态日志: ${ctx.method} ${ctx.url} 服务端请求响应时间: ${ms}ms`)
 })
 app.use(koaBody())
 app.use(router.routes())
 
 configRouter.forEach(item => {
-	if(Object.prototype.toString.call(item.type) == '[object Array]'){
-		let reg = new RegExp(item.url)
+	let path
+	if (item.reg) {
+		path = new RegExp(item.path)
+	} else {
+		path = item.path
+	}
+	if (Object.prototype.toString.call(item.type) == '[object Array]') {
 		item.type.forEach(val => {
-			router[val](reg,item.method)
+			router[val](path, item.method)
 		})
-	}else{
-		router[item.type](new RegExp(item.url),item.method)
+	} else {
+		router[item.type](path, item.method)
 	}
 })
 
 app.listen(port)
 
-const url = 'http://' + host + ':' + port + '/action/header'
-print.info('已开启端口: '+ port +' 监听,打开默认页面: ' + url)
+const url = 'http://' + host + ':' + port + '/detail/86'//'/action/header'
+print.info('已开启端口: ' + port + ' 监听,打开默认页面: ' + url)
 open(url);
 
 

@@ -17,9 +17,8 @@ class Detail extends Component{
 		super(props);
 	}
 	
-	static serverRender(store,url) {
-		let id = url.replace(/\D/g,'');
-		return fetchPosts(dataurl,{id:id})(store.dispatch);
+	static serverRender(store, query, headers) {
+		return fetchPosts(dataurl,{id:query.id})(store.dispatch);
 	}
 
 	//在第一次渲染后调用，只在客户端

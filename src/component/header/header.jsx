@@ -15,7 +15,7 @@ class Header extends Component{
 		this.state = {showmenu:false};
 	}
 
-	static serverRender(store) {
+	static serverRender(store, query, headers) {
 		return fetchPosts(dataurl)(store.dispatch)
 	}
 

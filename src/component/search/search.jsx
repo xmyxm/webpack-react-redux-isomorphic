@@ -20,7 +20,7 @@ export default class Search extends Component{
 		super(props)
 	}
 
-	static serverRender(store,url) {
+	static serverRender(store, query, headers) {
 		return fetchPosts(dataurl,{PageIndex:1,key:''})(store.dispatch);
 	}
 

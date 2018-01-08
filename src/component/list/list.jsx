@@ -19,7 +19,7 @@ export default class List extends Component{
 		super(props)
 	}
 
-	static serverRender(store) {
+	static serverRender(store, query, headers) {
 		return fetchPosts(dataurl, { PageIndex: 1, PageSize: 10 })(store.dispatch);
 	}
 

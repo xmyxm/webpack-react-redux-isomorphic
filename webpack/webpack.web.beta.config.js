@@ -13,7 +13,8 @@ config.plugins.push(
 	new webpack.DefinePlugin({
 	    'process.env': {
 	        NODE_ENV: '"development"'
-	    }
+	    },
+	    BUILD_ENV: JSON.stringify("web")
 	})
 );
 //source-map的打包可以告诉我们错误源自源码的具体的位置,devtool来选定生成的source-map的详细程度

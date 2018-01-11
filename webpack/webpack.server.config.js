@@ -89,11 +89,12 @@ module.exports = {
         // fix encoding/lib/iconv-loader.js warning
         new webpack.NormalModuleReplacementPlugin(
             /\/iconv-loader$/, 'node-noop'
-        )
+        ),
+        new webpack.DefinePlugin({
+            BUILD_ENV: JSON.stringify("node")
+        })
     ]
 }
-
-
 
 
 

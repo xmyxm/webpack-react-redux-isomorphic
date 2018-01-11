@@ -1,5 +1,5 @@
 import { paramToStr } from 'utilspath/url-data.js';
-import fetch from 'isomorphic-fetch';
+import fetchCom from 'utilspath/fetchcom.js';
 
 export const DETAIL_REQUEST_POSTS = 'DETAIL_REQUEST_POSTS';//发送请求
 export const DETAIL_REJECT_POSTS = 'DETAIL_REJECT_POSTS';//失败
@@ -33,31 +33,47 @@ export const rejectPosts = (path, error) => {
 }
 
 // 页面初次渲染时获取数据
-export const fetchPosts = (path, postData) => {
-    let url = path + '?' + paramToStr(postData);
+// export const fetchPosts = (url, param, headers) => {
+//     return dispatch => {
+//         dispatch(requestPosts(url, param))
+//         fetchCom(url,'get', param, headers)
+//         return fetch(url, {
+//             method: 'POST',
+//             mode: 'cors',
+//             "Content-Type": 'text/plain',//"application/json",
+//         })
+//             .then(response => {
+//                 if (response.ok) {
+//                     return Promise.resolve(response.json().then(
+//                         json => {
+//                             if(json.DetailContent){
+//                                 json.DetailContent.Content = encodeURIComponent(json.DetailContent.Content)
+//                                 json.DetailContent.Tag = encodeURIComponent(json.DetailContent.Tag)
+//                             }
+//                             return Promise.resolve(dispatch(resolvePosts(path, json)))
+//                         }
+//                     ))
+//                 } else {
+//                     console.log("redux action fetch 拉取数据失败", response.status);
+//                 }
+//             })
+//             .catch(error => dispatch(rejectPosts(path, error)))
+//     }
+// }
+
+export const fetchPosts = (url, param, headers) => {
     return dispatch => {
-        dispatch(requestPosts(url, postData));
-        return fetch(url, {
-            method: 'POST',
-            mode: 'cors',
-            "Content-Type": 'text/plain',//"application/json",
-        })
-            .then(response => {
-                if (response.ok) {
-                    return Promise.resolve(response.json().then(
-                        json => {
-                            if(json.DetailContent){
-                                json.DetailContent.Content = encodeURIComponent(json.DetailContent.Content)
-                                json.DetailContent.Tag = encodeURIComponent(json.DetailContent.Tag)
-                            }
-                            return Promise.resolve(dispatch(resolvePosts(path, json)))
-                        }
-                    ))
-                } else {
-                    console.log("redux action fetch 拉取数据失败", response.status);
+        dispatch(requestPosts(url, param))
+        return fetchCom(url,'get', param, headers)
+        .then(json => {
+                if(json.DetailContent){
+                    json.DetailContent.Content = encodeURIComponent(json.DetailContent.Content)
+                    json.DetailContent.Tag = encodeURIComponent(json.DetailContent.Tag)
                 }
-            })
-            .catch(error => dispatch(rejectPosts(path, error)))
+                return Promise.resolve(dispatch(resolvePosts(url, json)))
+            }
+        )
+        .catch(error => dispatch(rejectPosts(url, error)))
     }
 }
 

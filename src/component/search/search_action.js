@@ -1,5 +1,5 @@
-import {paramToStr} from 'utilspath/url-data.js';
-import fetch from 'isomorphic-fetch';
+import {paramToStr} from 'utilspath/url-data.js'
+import fetchCom from 'utilspath/fetchcom.js'
 
 export const SEARCH_REQUEST_POSTS = 'SEARCH_REQUEST_POSTS';//发送请求
 export const SEARCH_REJECT_POSTS = 'SEARCH_REJECT_POSTS';//失败
@@ -42,36 +42,51 @@ export const saveScrollTop = (height) => {
 }
 
 // 页面初次渲染时获取数据
-export const fetchPosts = (path, postData) => {
-    postData.PageSize = 10
-    let url = path + '?' + paramToStr(postData)
-    return (dispatch, getState) => {
-        dispatch(requestPosts(url,postData))
-        return fetch(url,{
-            method: 'POST', 
-            mode: 'cors',
-            "Content-Type": 'text/plain',//"application/json",
-        })
-        .then(response => {
-            if (response.ok) {
-                return Promise.resolve(response.json().then(
-                    json => {
-                        return Promise.resolve(dispatch(resolvePosts(path, json)))
-                    }
-                ))
-            } else {
-                console.log("redux action fetch 拉取数据失败", response.status);
+// export const fetchPosts = (path, postData) => {
+//     postData.PageSize = 10
+//     let url = path + '?' + paramToStr(postData)
+//     return (dispatch, getState) => {
+//         dispatch(requestPosts(url,postData))
+//         return fetch(url,{
+//             method: 'POST', 
+//             mode: 'cors',
+//             "Content-Type": 'text/plain',//"application/json",
+//         })
+//         .then(response => {
+//             if (response.ok) {
+//                 return Promise.resolve(response.json().then(
+//                     json => {
+//                         return Promise.resolve(dispatch(resolvePosts(path, json)))
+//                     }
+//                 ))
+//             } else {
+//                 console.log("redux action fetch 拉取数据失败", response.status);
+//             }
+//         })
+//         .catch(error => dispatch(rejectPosts(path,error)))
+//     }
+// }
+
+
+
+
+
+export const fetchPosts = (url, param, headers) => {
+    return dispatch => {
+        param.PageSize = 10
+        dispatch(requestPosts(url, param))
+        return fetchCom(url,'get', param, headers)
+        .then(json => {
+                if(json){
+                    return Promise.resolve(dispatch(resolvePosts(path, json)))
+                }else{
+                    dispatch(rejectPosts(url, error))
+                }
             }
-        })
-        .catch(error => dispatch(rejectPosts(path,error)))
+        )
+        .catch(error => dispatch(rejectPosts(url, error)))
     }
 }
-
-
-
-
-
-
 
 
 

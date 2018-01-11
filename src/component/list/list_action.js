@@ -1,5 +1,5 @@
-import {paramToStr} from 'utilspath/url-data.js';
-import fetch from 'isomorphic-fetch';
+import {paramToStr} from 'utilspath/url-data.js'
+import fetchCom from 'utilspath/fetchcom.js'
 
 export const LIST_REQUEST_POSTS = 'LIST_REQUEST_POSTS';//发送请求
 export const LIST_REJECT_POSTS = 'LIST_REJECT_POSTS';//失败
@@ -42,36 +42,26 @@ export const saveScrollTop = (height) => {
 }
 
 // 页面初次渲染时获取数据
-export const fetchPosts = (path, postData) => {
-    postData.PageSize = 10
-    let url = path + '?' + paramToStr(postData)
-    return (dispatch,getState) => {
-        dispatch(requestPosts(url,postData))
-        return fetch(url,{
-            method: 'POST', 
-            mode: 'cors',
-            "Content-Type": 'text/plain',//"application/json",
-        })
-        .then(response => {
-            if (response.ok) {
-                return Promise.resolve(response.json().then(
-                    json => {
-                        for (let i = 0, l = json.BlogWorkList.length; i < l; i++) {
+export const fetchPosts = (url, param, headers) => {
+    return dispatch => {
+        dispatch(requestPosts(url, param))
+        return fetchCom(url,'get', param, headers)
+        .then(json => {
+                if(json && json.BlogWorkList){
+                    for (let i = 0, l = json.BlogWorkList.length; i < l; i++) {
                             json.BlogWorkList[i].Content = encodeURIComponent(json.BlogWorkList[i].Content);
                             json.BlogWorkList[i].Tag = encodeURIComponent(json.BlogWorkList[i].Tag);
                             json.BlogWorkList[i].Title = encodeURIComponent(json.BlogWorkList[i].Title);
                         }
-                        return Promise.resolve(dispatch(resolvePosts(path, json)))
-                    }
-                ))                
-            } else {
-                console.log("redux action fetch 拉取数据失败", response.status);
+                    return Promise.resolve(dispatch(resolvePosts(path, json)))
+                }else{
+                    dispatch(rejectPosts(url, error))
+                }
             }
-        })
-        .catch(error => dispatch(rejectPosts(path,error)))
+        )
+        .catch(error => dispatch(rejectPosts(url, error)))
     }
 }
-
 
 
 

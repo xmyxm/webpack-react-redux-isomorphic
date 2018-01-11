@@ -2,7 +2,6 @@ const fetch = require('isomorphic-fetch')
 const print = require('./print.js')
 
 async function fetchData(url) {
-
     const data = await fetch(url, {
         method: 'POST',
         mode: 'cors',
@@ -16,15 +15,15 @@ async function fetchData(url) {
                     }
                 ))
             } else {
-                print.warn("node fetch 拉取数据失败", response.status)
+                print.warn(`node fetch 拉取数据失败 code : ${response.status} 错误提示: ${response.statusText} url: ${url}`)
+                return ''
             }
         })
         .catch(error => {
-            print.warn("捕获代码异常：", error)
+            print.warn(`node fetch 捕获代码异常: ${error}`)
         })
     return data
 }
-
 
 module.exports = fetchData
 

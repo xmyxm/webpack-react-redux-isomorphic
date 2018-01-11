@@ -20,7 +20,7 @@ export default class List extends Component{
 	}
 
 	static serverRender(store, query, headers) {
-		return fetchPosts(dataurl, { PageIndex: 1, PageSize: 10 })(store.dispatch);
+		return fetchPosts(dataurl, { PageIndex: 1, PageSize: 10 }, headers)(store.dispatch);
 	}
 
 	componentWillUnmount() {

@@ -11,7 +11,6 @@ const router = new Router();
 const port = 3000;
 const host = '127.0.0.1';
 
-
 app.use(async (ctx, next) => {
 	const start = new Date()
 	await next()
@@ -30,18 +29,21 @@ configRouter.forEach(item => {
 	}
 	if (Object.prototype.toString.call(item.type) == '[object Array]') {
 		item.type.forEach(val => {
-			router[val](path, item.method)
+			router[val](path, countParam, item.method)
 		})
 	} else {
-		router[item.type](path, item.method)
+		router[item.type](path, countParam, item.method)
 	}
 })
 
+function countParam(ctx, next) {
+	ctx.query = { ...ctx.params, ...ctx.request.query }
+	return next()
+}
+
 app.listen(port)
 
-const url = 'http://' + host + ':' + port + '/detail/86'//'/action/header'
-print.info('已开启端口: ' + port + ' 监听,打开默认页面: ' + url)
-open(url);
+
 
 
 

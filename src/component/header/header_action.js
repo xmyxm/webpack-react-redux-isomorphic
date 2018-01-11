@@ -1,5 +1,5 @@
-import {paramToStr} from 'utilspath/url-data.js';
-import fetch from 'isomorphic-fetch';
+import {paramToStr} from 'utilspath/url-data.js'
+import fetchCom from 'utilspath/fetchcom.js'
 
 export const HEADER_REQUEST_POSTS = 'HEADER_REQUEST_POSTS';//发送请求
 export const HEADER_REJECT_POSTS = 'HEADER_REJECT_POSTS';//失败
@@ -33,31 +33,22 @@ export const rejectPosts = (path, error) => {
 }
 
 // 页面初次渲染时获取数据
-export const fetchPosts = (path, postData) => {
-    let url = path + '?' + paramToStr(postData);
+
+export const fetchPosts = (url, param, headers) => {
     return dispatch => {
-        dispatch(requestPosts(url,postData));
-        return fetch(url,{
-            method: 'POST', 
-            mode: 'cors',
-            "Content-Type": 'text/plain',//"application/json",
-        })
-        .then(response => {
-            if (response.ok) {
-                return Promise.resolve(response.json().then(
-                    json => {
-                        return Promise.resolve(dispatch(resolvePosts(path, json)))
-                    }
-                ))
-            } else {
-                console.log("redux action fetch 拉取数据失败", response.status);
+        dispatch(requestPosts(url, param))
+        return fetchCom(url,'get', null, headers)
+        .then(json => {
+                if(json){
+                    return Promise.resolve(dispatch(resolvePosts(url, json)))
+                }else{
+                    dispatch(rejectPosts(url, error))
+                }
             }
-        })
-        .catch(error => dispatch(rejectPosts(path,error)))
+        )
+        .catch(error => dispatch(rejectPosts(url, error)))
     }
 }
-
-
 
 
 

@@ -32,7 +32,7 @@ export default async function (ctx) {
   const store = finalCreateStore(reducers, initialState)
   let reqQueue = []
   commponentAry.forEach(item => {
-    if (item.serverRender) reqQueue.push(item.serverRender(store, ctx.request.query, ctx.headers))
+    if (item.serverRender) reqQueue.push(item.serverRender(store, ctx.query, ctx.headers))
   })
   await Promise.all(reqQueue)
 
@@ -47,7 +47,7 @@ export default async function (ctx) {
         <div className="blogbox">
           {
             commponentAry.map(Item => {
-              return <Item/>
+              return <Item />
             })
           }
         </div>

@@ -42,10 +42,6 @@ const Request = (url, options) => {
                 return Promise.resolve(res.json().then(
                     json => { return json }
                 ))
-            }else{
-                console.log(fetchTitle + '请求错误！！！url : ' + url)
-                console.log(res)
-                return ''
             }
         }).catch(err => { console.log(fetchTitle + ' 请求 error, 代码异常:' + err ) })
 }

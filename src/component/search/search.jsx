@@ -21,7 +21,7 @@ export default class Search extends Component{
 	}
 
 	static serverRender(store, query, headers) {
-		return fetchPosts(dataurl,{PageIndex:1,key:''})(store.dispatch);
+		return fetchPosts(dataurl, {PageIndex:1,key:''}, headers)(store.dispatch)
 	}
 
 	componentWillUnmount() {

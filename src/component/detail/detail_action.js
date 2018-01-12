@@ -41,7 +41,7 @@ export const fetchPosts = (url, param, headers) => {
                 if(json.DetailContent){
                     json.DetailContent.Content = encodeURIComponent(json.DetailContent.Content)
                     json.DetailContent.Tag = encodeURIComponent(json.DetailContent.Tag)
-                    return Promise.resolve(dispatch(resolvePosts(url, json)))
+                    dispatch(resolvePosts(url, json))
                 }else{
                     dispatch(rejectPosts(url, error))
                 }

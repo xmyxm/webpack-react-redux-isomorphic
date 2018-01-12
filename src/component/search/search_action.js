@@ -42,43 +42,13 @@ export const saveScrollTop = (height) => {
 }
 
 // 页面初次渲染时获取数据
-// export const fetchPosts = (path, postData) => {
-//     postData.PageSize = 10
-//     let url = path + '?' + paramToStr(postData)
-//     return (dispatch, getState) => {
-//         dispatch(requestPosts(url,postData))
-//         return fetch(url,{
-//             method: 'POST', 
-//             mode: 'cors',
-//             "Content-Type": 'text/plain',//"application/json",
-//         })
-//         .then(response => {
-//             if (response.ok) {
-//                 return Promise.resolve(response.json().then(
-//                     json => {
-//                         return Promise.resolve(dispatch(resolvePosts(path, json)))
-//                     }
-//                 ))
-//             } else {
-//                 console.log("redux action fetch 拉取数据失败", response.status);
-//             }
-//         })
-//         .catch(error => dispatch(rejectPosts(path,error)))
-//     }
-// }
-
-
-
-
-
 export const fetchPosts = (url, param, headers) => {
     return dispatch => {
-        param.PageSize = 10
         dispatch(requestPosts(url, param))
         return fetchCom(url,'get', param, headers)
         .then(json => {
                 if(json){
-                    return Promise.resolve(dispatch(resolvePosts(path, json)))
+                    dispatch(resolvePosts(url, json))
                 }else{
                     dispatch(rejectPosts(url, error))
                 }

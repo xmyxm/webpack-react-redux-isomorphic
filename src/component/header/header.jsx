@@ -16,7 +16,7 @@ class Header extends Component{
 	}
 
 	static serverRender(store, query, headers) {
-		return fetchPosts(dataurl)(store.dispatch)
+		return fetchPosts(dataurl, query, headers)(store.dispatch)
 	}
 
 	componentDidMount(){

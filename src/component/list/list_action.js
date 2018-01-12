@@ -53,7 +53,7 @@ export const fetchPosts = (url, param, headers) => {
                             json.BlogWorkList[i].Tag = encodeURIComponent(json.BlogWorkList[i].Tag);
                             json.BlogWorkList[i].Title = encodeURIComponent(json.BlogWorkList[i].Title);
                         }
-                    return Promise.resolve(dispatch(resolvePosts(path, json)))
+                    dispatch(resolvePosts(url, json))
                 }else{
                     dispatch(rejectPosts(url, error))
                 }

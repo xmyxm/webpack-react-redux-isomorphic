@@ -33,14 +33,13 @@ export const rejectPosts = (path, error) => {
 }
 
 // 页面初次渲染时获取数据
-
 export const fetchPosts = (url, param, headers) => {
     return dispatch => {
         dispatch(requestPosts(url, param))
         return fetchCom(url,'get', null, headers)
         .then(json => {
                 if(json){
-                    return Promise.resolve(dispatch(resolvePosts(url, json)))
+                    dispatch(resolvePosts(url, json))
                 }else{
                     dispatch(rejectPosts(url, error))
                 }

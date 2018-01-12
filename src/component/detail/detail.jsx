@@ -25,8 +25,9 @@ class Detail extends Component {
 
 	//在第一次渲染后调用，只在客户端
 	componentDidMount() {
-		if (!this.props.detailData) {
-			let params = this.props.match.params
+		let detailData = this.props.detailData
+		let params = this.props.match.params
+		if (!detailData || (detailData && detailData.BlogID && params && detailData.BlogID != params.id)) {
 			this.props.fetchPosts(dataurl, { id: params.id })
 		}
 	}

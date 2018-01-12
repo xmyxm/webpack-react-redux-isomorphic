@@ -43,7 +43,9 @@ function countParam(ctx, next) {
 
 app.listen(port)
 
-
+const url = 'http://' + host + ':' + port + '/home'//'/action/header'
+print.info('已开启端口: ' + port + ' 监听,打开默认页面: ' + url)
+open(url);
 
 
 

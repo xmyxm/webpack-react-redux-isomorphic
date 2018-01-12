@@ -1,4 +1,4 @@
-const fetch = require('isomorphic-fetch')
+const fetch = require('node-fetch')
 const print = require('./print.js')
 
 async function fetchData(url) {

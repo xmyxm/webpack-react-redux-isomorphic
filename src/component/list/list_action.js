@@ -1,4 +1,3 @@
-import {paramToStr} from 'utilspath/url-data.js'
 import fetchCom from 'utilspath/fetchcom.js'
 
 export const LIST_REQUEST_POSTS = 'LIST_REQUEST_POSTS';//发送请求

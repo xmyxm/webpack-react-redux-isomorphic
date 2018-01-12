@@ -1,17 +1,6 @@
 import FormData from 'form-data'
 import { paramToStr } from 'utilspath/url-data.js'
-
-let fetch, fetchTitle
-if (BUILD_ENV == "web") {
-    require('whatwg-fetch')
-
-    fetchTitle = 'common-web-fetch'
-    fetch = window.fetch
-} else if (BUILD_ENV == "node") {
-    fetch = require('node-fetch')
-
-    fetchTitle = 'common-node-fetch'
-}
+import fetch from 'isomorphic-fetch'
 
 // 页面初次渲染时获取数据
 const fetchCom = (url, type, param, headers) => {
@@ -43,7 +32,7 @@ const Request = (url, options) => {
                     json => { return json }
                 ))
             }
-        }).catch(err => { console.log(fetchTitle + ' 请求 error, 代码异常:' + err ) })
+        }).catch(err => { console.log('fetchCom 请求 error, 代码异常:' + err ) })
 }
 
 export default fetchCom

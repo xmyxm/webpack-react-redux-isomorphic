@@ -35,7 +35,7 @@ exports.layout = function(content, data) {
         </script>
     </head>
     <body>
-        <div id="app"><div class="blogbox">${content}</div></div>
+        <div id="app">${content}</div>
         <script type="text/javascript">window.__REDUX_DATA__ = '${JSON.stringify(data).replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;")}';</script>
         <script type="text/javascript" src="http://127.0.0.1:9000/js/manifest.js"></script>
         <script type="text/javascript" src="http://127.0.0.1:9000/js/common.js"></script>

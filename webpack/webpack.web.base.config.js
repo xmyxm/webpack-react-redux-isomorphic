@@ -5,7 +5,7 @@ const path = require('path')
 //抽离css样式,防止将样式打包在js中引起页面样式加载错乱的现象
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const webpack = require('webpack')
-const packageFilePath = path.join(__dirname, "../dist")
+
 //静态资源访问端口号
 const port = 9000
 //静态资源访问host
@@ -17,7 +17,7 @@ module.exports = {
 		,common:['react','redux']
 	},
 	output:{
-		path: packageFilePath
+		path: path.join(__dirname, "../dist")
 		//,filename:'js/[name]-[chunkhash].js'//dev 环境不能使用这个配置，因为您不应该使用纯或散列进行开发。这将导致许多其他问题，比如内存泄漏，因为dev服务器不知道什么时候清理旧文件。
 		,filename:'js/[name].js'
 		,chunkFilename: 'js/[name].js'//'js/[name]-[id].js'
@@ -107,28 +107,7 @@ module.exports = {
              stylepath: path.resolve(__dirname,'../src/style'),
              reduxpath: path.resolve(__dirname,'../src/redux')
         }
-    },
-	devServer: {
-		headers: {
-            'Access-Control-Allow-Origin': '*'
-        },
-        // 本地node-server的host，如需调整自行修改
-        //public: 'local.51ping.com:8080',
-		contentBase: packageFilePath,
-		watchContentBase:true,//告诉服务器监视那些通过 devServer.contentBase 选项提供的文件。文件改动将触发整个页面重新加载。默认被禁用。
-		compress: true,//一切服务都启用gzip 压缩：
-		inline: true,//应用程序启用内联模式,默认内联模式
-		hot: true,//启用 webpack 的模块热替换特性
-		host: host,//指定使用一个 host。默认是 localhost。如果你希望服务器外部可访问，指定为ip
-		stats:{colors: true},// 用颜色标识
-		port: port,
-		historyApiFallback:{
-			index:'dist/index.html',
-			rewrites: [
-			  { from: /^\/admin/, to: 'dist/admin.html' }
-			]
-	    }
-	}
+    }
 }
 
 

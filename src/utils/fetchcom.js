@@ -20,6 +20,7 @@ const fetchCom = (url, type, param, headers) => {
     }
     if (typeof global == 'object' && global.global === global) {
         options.headers = headers
+        url = 'http://127.0.0.1:3000' + url
     }
     return Request(url, options)
 }

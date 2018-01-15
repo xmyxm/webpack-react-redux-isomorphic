@@ -6,8 +6,6 @@ import DateTool from 'utilspath/date-format.js';
 import Cube from '../animation/cube.jsx';
 import './detail.less';
 
-const dataurl = 'http://127.0.0.1:3000/action/detail' //'http://qqweb.top/API/BlogApi/Detail'
-
 @connect(state => {
 	return {
 		detailData: state.Detail.detailData
@@ -20,7 +18,7 @@ class Detail extends Component {
 	}
 
 	static serverRender(store, query, headers) {
-		return fetchPosts(dataurl, { id: query.id }, headers)(store.dispatch);
+		return fetchPosts({ id: query.id }, headers)(store.dispatch);
 	}
 
 	//在第一次渲染后调用，只在客户端
@@ -28,7 +26,7 @@ class Detail extends Component {
 		let detailData = this.props.detailData
 		let params = this.props.match.params
 		if (!detailData || (detailData && detailData.BlogID && params && detailData.BlogID != params.id)) {
-			this.props.fetchPosts(dataurl, { id: params.id })
+			this.props.fetchPosts({ id: params.id })
 		}
 	}
 

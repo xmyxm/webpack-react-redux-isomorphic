@@ -6,7 +6,6 @@ import DateTool from 'utilspath/date-format.js';
 import Eat from '../animation/eat.jsx';
 import './list.less';
 
-const dataurl = 'http://127.0.0.1:3000/action/list' //'http://qqweb.top/API/BlogApi/WorkList'
 
 @connect(state => {return {
 	listData: state.List.listData,
@@ -20,7 +19,7 @@ export default class List extends Component{
 	}
 
 	static serverRender(store, query, headers) {
-		return fetchPosts(dataurl, { PageIndex: 1 }, headers)(store.dispatch);
+		return fetchPosts({ PageIndex: 1 }, headers)(store.dispatch);
 	}
 
 	componentWillUnmount() {
@@ -46,11 +45,11 @@ export default class List extends Component{
 	        if (alltop > document.body.scrollHeight) {
 	        	//console.log('滚动高度加视口高度:'+ alltop + ' 内容区域的实际高度:' + document.body.scrollHeight + '  dataMore:' + _self.props.dataMore + '  isFetching:' + _self.props.isFetching)	
 	            let PageIndex = _self.props.listData && _self.props.listData.PageIndex ? ++ _self.props.listData.PageIndex : 1
-	            _self.props.fetchPosts(dataurl,{PageIndex:  PageIndex})
+	            _self.props.fetchPosts({PageIndex:  PageIndex})
 	        }
         }
         //再次切回列表页不用拉取数据
-        !_self.props.listData  && _self.props.fetchPosts(dataurl,{PageIndex: 1})
+        !_self.props.listData  && _self.props.fetchPosts({PageIndex: 1})
     }
 
 	render(){

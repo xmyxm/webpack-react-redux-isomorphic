@@ -32,7 +32,9 @@ export const rejectPosts = (path, error) => {
 }
 
 // 页面初次渲染时获取数据
-export const fetchPosts = (url, param, headers) => {
+export const fetchPosts = (param, headers) => {
+    const url = '/action/header' //'http://qqweb.top/API/BlogApi/AdminUser'
+
     return dispatch => {
         dispatch(requestPosts(url, param))
         return fetchCom(url,'get', null, headers)

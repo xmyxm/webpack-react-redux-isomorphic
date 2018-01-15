@@ -31,7 +31,9 @@ export const rejectPosts = (path, error) => {
     }
 }
 
-export const fetchPosts = (url, param, headers) => {
+export const fetchPosts = (param, headers) => {
+    let url = '/action/detail' //'http://qqweb.top/API/BlogApi/Detail'
+
     return dispatch => {
         url = url + '/' + param.id
         dispatch(requestPosts(url, param))

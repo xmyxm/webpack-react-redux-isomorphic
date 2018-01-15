@@ -6,7 +6,6 @@ import DateTool from 'utilspath/date-format.js';
 import Eat from '../animation/eat.jsx';
 import './search.less';
 
-const dataurl = 'http://127.0.0.1:3000/action/search' //'http://qqweb.top/API/BlogApi/Query'
 
 @connect(state => {return {
 	searchData:state.Search.searchData,
@@ -21,7 +20,7 @@ export default class Search extends Component{
 	}
 
 	static serverRender(store, query, headers) {
-		return fetchPosts(dataurl, {PageIndex:1,key:''}, headers)(store.dispatch)
+		return fetchPosts({PageIndex:1,key:''}, headers)(store.dispatch)
 	}
 
 	componentWillUnmount() {
@@ -46,7 +45,7 @@ export default class Search extends Component{
     }
 
 	pullBlogData(param){
-		this.props.fetchPosts(dataurl, param)
+		this.props.fetchPosts(param)
 	}
 
 	Query(){

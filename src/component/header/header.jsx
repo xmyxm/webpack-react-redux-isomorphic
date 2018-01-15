@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {fetchPosts} from './header_action.js';
 import './header.less';
 
-const dataurl = 'http://127.0.0.1:3000/action/header' //'http://qqweb.top/API/BlogApi/AdminUser'
 
 @connect(state => {return {
 	headerData:state.Header.headerData
@@ -16,12 +15,12 @@ class Header extends Component{
 	}
 
 	static serverRender(store, query, headers) {
-		return fetchPosts(dataurl, query, headers)(store.dispatch)
+		return fetchPosts(query, headers)(store.dispatch)
 	}
 
 	componentDidMount(){
 		if(!this.props.headerData){
-			this.props.fetchPosts(dataurl)
+			this.props.fetchPosts()
 		}
 	}
 

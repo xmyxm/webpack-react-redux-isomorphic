@@ -2,9 +2,10 @@
 const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const configPath = require('../config/config.js')
+const appConfig = require('../config/config.js')
 let config = require('./webpack.web.base.config.js')
-
+const host = appConfig.dev.web.host
+const port = appConfig.dev.web.port
 
 config.output.publicPath = `http://${host}:${port}/`
 config.plugins = config.plugins||[];

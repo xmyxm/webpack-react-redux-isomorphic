@@ -5,11 +5,12 @@ const open = require("open");
 const render = require('./dist/server/index.js')
 const configRouter = require('./config/router.js')
 const print = require('./utils/print.js')
+const config = require('./config/config.js')
 
+const port = config.pro.server.port
+const host = config.pro.server.host
 const app = new Koa();
 const router = new Router();
-const port = 3000;
-const host = '127.0.0.1';
 
 app.use(async (ctx, next) => {
 	const start = new Date()
@@ -41,9 +42,9 @@ function countParam(ctx, next) {
 	return next()
 }
 
-app.listen(port)
+app.listen(config.pro.server.port)
 
-const url = 'http://' + host + ':' + port + '/home'//'/action/header'
+const url = 'http://' + config.pro.server.host + ':' + config.pro.server.port + '/home'//'/action/header'
 print.info('已开启端口: ' + port + ' 监听,打开默认页面: ' + url)
 open(url);
 

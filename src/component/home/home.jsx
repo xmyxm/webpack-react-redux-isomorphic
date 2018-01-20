@@ -13,7 +13,7 @@ export default class Home extends Component{
 		return (
 			<Link to = "/list" className = "homebox">
 				<div className = "homeimg">
-					<LazyLoad>
+					<LazyLoad height = "100%">
 						<img className="imgicon" src={imglink} />
 					</LazyLoad>
 				</div>

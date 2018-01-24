@@ -38,6 +38,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 //初始化默认state数据
 const initialState = JSON.parse((window.__REDUX_DATA__ || '{}').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&apos;/g, "'"))
+window.__REDUX_DATA__ = initialState
 const finalCreateStore = applyMiddleware(...middleware)(createStore)
 const store = finalCreateStore(reducers, initialState)
 

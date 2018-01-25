@@ -31,13 +31,11 @@ export const rejectPosts = (path, error) => {
     }
 }
 
-export const fetchPosts = (param, headers) => {
-    let url = '/action/detail' //'http://qqweb.top/API/BlogApi/Detail'
-
+export const fetchPosts = (param, context) => {
+    let url = 'detail' 
     return dispatch => {
-        url = url + '/' + param.id
         dispatch(requestPosts(url, param))
-        return fetchCom(url,'get', null, headers)
+        return fetchCom(url,'get', param, context)
         .then(json => {
                 if(json.DetailContent){
                     json.DetailContent.Content = encodeURIComponent(json.DetailContent.Content)

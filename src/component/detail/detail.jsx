@@ -17,8 +17,8 @@ class Detail extends Component {
 		super(props);
 	}
 
-	static serverRender(store, query, headers) {
-		return fetchPosts({ id: query.id }, headers)(store.dispatch);
+	static serverRender(store, query, context) {
+		return fetchPosts({ id: query.id }, context)(store.dispatch);
 	}
 
 	//在第一次渲染后调用，只在客户端

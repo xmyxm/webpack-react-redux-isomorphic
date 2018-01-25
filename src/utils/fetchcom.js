@@ -1,28 +1,41 @@
 import FormData from 'form-data'
 import { paramToStr } from 'utilspath/url-data.js'
 import fetch from 'isomorphic-fetch'
+import api from '../../api/api.js'
 
 // 页面初次渲染时获取数据
-const fetchCom = (url, type, param, headers) => {
-    let options = {}
-    if (type == 'post' && param) {
-        options.method = 'POST'
-        let form = new FormData()
+const fetchCom = (url, type, param, context) => {
+    if(typeof global == 'object' && global.global === global){
+        context.query.actionname = url
         for (let key in param) {
             if (param.hasOwnProperty(key)) { //filter,只输出man的私有属性
-                form.append(key, param[key])
+                context.query[key] = param[key]
             }
         }
-        options.body = form
-    } else {
-        url = param ? url + '?' + paramToStr(param) : url
-        options.method = 'GET'
-    }
-    if (typeof global == 'object' && global.global === global) {
-        options.headers = headers
-        url = 'http://127.0.0.1:3000' + url
-    }
-    return Request(url, options)
+        return new Promise(async function(resolve, reject) {
+            var x = await api(context)
+                console.log('-------------------');
+                console.log(x);
+              resolve(x);
+            })
+       //return  api(context)//await
+    }else{
+        let options = {}
+        if (type == 'post' && param) {
+            options.method = 'POST'
+            let form = new FormData()
+            for (let key in param) {
+                if (param.hasOwnProperty(key)) { //filter,只输出man的私有属性
+                    form.append(key, param[key])
+                }
+            }
+            options.body = form
+        } else {
+            url = param ? url + '?' + paramToStr(param) : url
+            options.method = 'GET'
+        }
+        return Request(url, options)
+    }    
 }
 
 const Request = (url, options) => {

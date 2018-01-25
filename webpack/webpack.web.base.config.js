@@ -32,7 +32,7 @@ module.exports = {
 	            exclude: /node_modules/,
 	            query: {
 	                presets: ['react', 'stage-0', 'es2015', 'stage-3'],
-	                plugins: ["transform-object-rest-spread","transform-decorators-legacy","transform-class-properties"]
+	                plugins: ["transform-object-rest-spread","transform-decorators-legacy","transform-class-properties","babel-plugin-transform-runtime"]
 		        }
 			},
 			{

@@ -41,12 +41,12 @@ export const saveScrollTop = (height) => {
 }
 
 // 页面初次渲染时获取数据
-export const fetchPosts = (param, headers) => {
-    const url = '/action/list' //'http://qqweb.top/API/BlogApi/WorkList'
+export const fetchPosts = (param, context) => {
+    const url = 'list' //'http://qqweb.top/API/BlogApi/WorkList'
 
     return dispatch => {
         dispatch(requestPosts(url, param))
-        return fetchCom(url,'get', param, headers)
+        return fetchCom(url,'get', param, context)
         .then(json => {
                 if(json && json.BlogWorkList){
                     for (let i = 0, l = json.BlogWorkList.length; i < l; i++) {

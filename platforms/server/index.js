@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { HashRouter as Router, StaticRouter, MemoryRouter, Route, Switch, LinkS, Redirect } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
@@ -32,7 +32,7 @@ export default async function (ctx) {
   const store = finalCreateStore(reducers, initialState)
   let reqQueue = []
   commponentAry.forEach(item => {
-    if (item.serverRender) reqQueue.push(item.serverRender(store, ctx.query, ctx.headers))
+    if (item.serverRender) reqQueue.push(item.serverRender(store, ctx.query, ctx))
   })
   await Promise.all(reqQueue)
 
@@ -58,7 +58,7 @@ export default async function (ctx) {
   const renderTime = Date.now() - renderStart
 
   console.log(`访问url地址：${ctx.url} 数据请求耗时: ${serverTime}ms 渲染耗时: ${renderTime}ms`)
-
+  ctx.set('Content-Type','text/html');
   ctx.body = html;
 }
 

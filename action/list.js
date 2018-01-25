@@ -6,6 +6,7 @@ async function list(ctx) {
     const url = `http://qqweb.top/API/BlogApi/WorkList?PageIndex=${index}&PageSize=${size}`
     const data = await fetchData(url)
     ctx.body = data
+    return data
 }
 
 module.exports = list

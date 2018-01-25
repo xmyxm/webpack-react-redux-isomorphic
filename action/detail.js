@@ -5,6 +5,7 @@ async function detail(ctx) {
     const url = `http://qqweb.top/API/BlogApi/Detail?id=${id}`
     const data = await fetchData(url)
     ctx.body = data
+    return data
 }
 
 

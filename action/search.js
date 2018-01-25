@@ -7,6 +7,7 @@ async function search(ctx) {
     const url = `http://qqweb.top/API/BlogApi/Query?PageIndex=${index}&key=${key}&PageSize=${size}`
     const data = await fetchData(url)
     ctx.body = data
+    return data
 }
 
 module.exports = search

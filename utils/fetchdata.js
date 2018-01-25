@@ -2,7 +2,7 @@ const fetch = require('node-fetch')
 const print = require('./print.js')
 
 async function fetchData(url) {
-    const data = await fetch(url, {
+    return fetch(url, {
         method: 'POST',
         mode: 'cors',
         "Content-Type": 'text/plain',
@@ -22,7 +22,6 @@ async function fetchData(url) {
         .catch(error => {
             print.warn(`node fetch 捕获代码异常: ${error}`)
         })
-    return data
 }
 
 module.exports = fetchData

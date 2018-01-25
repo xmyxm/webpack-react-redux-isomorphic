@@ -42,20 +42,19 @@ export const saveScrollTop = (height) => {
 
 // 页面初次渲染时获取数据
 export const fetchPosts = (param, headers) => {
-    const url = 'search' //'http://qqweb.top/API/BlogApi/Query'
-
+    const actionName = 'search' 
     return dispatch => {
-        dispatch(requestPosts(url, param))
-        return fetchCom(url,'get', param, headers)
+        dispatch(requestPosts(actionName, param))
+        return fetchCom(actionName,'get', param, headers)
         .then(json => {
                 if(json){
-                    dispatch(resolvePosts(url, json))
+                    dispatch(resolvePosts(actionName, json))
                 }else{
-                    dispatch(rejectPosts(url, error))
+                    dispatch(rejectPosts(actionName, error))
                 }
             }
         )
-        .catch(error => dispatch(rejectPosts(url, error)))
+        .catch(error => dispatch(rejectPosts(actionName, error)))
     }
 }
 

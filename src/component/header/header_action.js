@@ -33,20 +33,19 @@ export const rejectPosts = (path, error) => {
 
 // 页面初次渲染时获取数据
 export const fetchPosts = (param, context) => {
-    const url = 'header' //'http://qqweb.top/API/BlogApi/AdminUser'
-
+    const actionName = 'header' 
     return dispatch => {
-        dispatch(requestPosts(url, param))
-        return fetchCom(url,'get', null, context)
+        dispatch(requestPosts(actionName, param))
+        return fetchCom(actionName,'get', null, context)
         .then(json => {
                 if(json){
-                    dispatch(resolvePosts(url, json))
+                    dispatch(resolvePosts(actionName, json))
                 }else{
-                    dispatch(rejectPosts(url, error))
+                    dispatch(rejectPosts(actionName, error))
                 }
             }
         )
-        .catch(error => dispatch(rejectPosts(url, error)))
+        .catch(error => dispatch(rejectPosts(actionName, error)))
     }
 }
 

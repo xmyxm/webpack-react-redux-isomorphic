@@ -4,15 +4,15 @@ import fetch from 'isomorphic-fetch'
 import api from '../../api/api.js'
 
 // 页面初次渲染时获取数据
-const fetchCom = (actionname, type, param = {}, context) => {
+const fetchCom = (actionName, type, param = {}, context) => {
     if(typeof global == 'object' && global.global === global){
-        context.query.actionname = actionname
+        context.query.actionname = actionName
         for (let key in param) {
             if (param.hasOwnProperty(key)) { //filter,只输出man的私有属性
                 context.query[key] = param[key]
             }
         }
-        return new Promise(async function(resolve, reject) {
+        return new Promise(function(resolve, reject) {
                 const data = api(context)
                 if(data){
                     resolve(data)
@@ -22,12 +22,12 @@ const fetchCom = (actionname, type, param = {}, context) => {
             })
     }else{
         let options = {},url = 'api'
-        param.actionname = actionname
+        param.actionname = actionName
         if (type == 'post' && param) {
             options.method = 'POST'
             let data = {}
             for (let key in param) {
-                if (param.hasOwnProperty(key)) { //filter,只输出man的私有属性
+                if (param.hasOwnProperty(key)) {
                     data[key] = param[key]
                 }
             }

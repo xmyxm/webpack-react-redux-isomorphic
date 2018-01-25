@@ -32,21 +32,21 @@ export const rejectPosts = (path, error) => {
 }
 
 export const fetchPosts = (param, context) => {
-    let url = 'detail' 
+    let actionName = 'detail' 
     return dispatch => {
-        dispatch(requestPosts(url, param))
-        return fetchCom(url,'get', param, context)
+        dispatch(requestPosts(actionName, param))
+        return fetchCom(actionName,'get', param, context)
         .then(json => {
                 if(json.DetailContent){
                     json.DetailContent.Content = encodeURIComponent(json.DetailContent.Content)
                     json.DetailContent.Tag = encodeURIComponent(json.DetailContent.Tag)
-                    dispatch(resolvePosts(url, json))
+                    dispatch(resolvePosts(actionName, json))
                 }else{
-                    dispatch(rejectPosts(url, error))
+                    dispatch(rejectPosts(actionName, error))
                 }
             }
         )
-        .catch(error => dispatch(rejectPosts(url, error)))
+        .catch(error => dispatch(rejectPosts(actionName, error)))
     }
 }
 

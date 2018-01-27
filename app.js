@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const Router = require('koa-router');
+//转换body内容为json串或者string串
 const koaBody = require('koa-body');
 const open = require("open");
 const render = require('./dist/server/index.js')
@@ -29,15 +30,15 @@ configRouter.forEach(item => {
 	}
 	if (Object.prototype.toString.call(item.type) == '[object Array]') {
 		item.type.forEach(val => {
-			router[val](path, countParam, item.method)
+			router[val](path, paramMerge, item.method)
 		})
 	} else {
-		router[item.type](path, countParam, item.method)
+		router[item.type](path, paramMerge, item.method)
 	}
 })
 
-function countParam(ctx, next) {
-	ctx.query = { ...ctx.params, ...ctx.request.query }
+function paramMerge(ctx, next) {
+	ctx.query = { ...ctx.params, ...ctx.request.body, ...ctx.request.query }
 	return next()
 }
 

@@ -1,7 +1,7 @@
 import FormData from 'form-data'
 import { paramToStr } from 'utilspath/url-data.js'
 import fetch from 'isomorphic-fetch'
-import api from '../../api/api.js'
+import api from '../../action/api/api.js'
 
 // 页面初次渲染时获取数据
 const fetchCom = (actionName, type, param = {}, context) => {
@@ -31,6 +31,9 @@ const fetchCom = (actionName, type, param = {}, context) => {
                     data[key] = param[key]
                 }
             }
+            options.headers = {
+                'Content-Type':'application/json; charset=utf-8'
+            },
             options.body = JSON.stringify(data)
         } else {
             url = param ? url + '?' + paramToStr(param) : url

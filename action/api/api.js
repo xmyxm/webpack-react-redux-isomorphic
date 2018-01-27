@@ -1,7 +1,7 @@
-const header = require('../action/header.js')
-const list = require('../action/list.js')
-const detail = require('../action/detail.js')
-const search = require('../action/search.js')
+const header = require('../header.js')
+const list = require('../list.js')
+const detail = require('../detail.js')
+const search = require('../search.js')
 
 function api(ctx) {
 	switch (ctx.query.actionname) {
@@ -11,7 +11,6 @@ function api(ctx) {
 		case 'search': return search(ctx); break;
 	}
 }
-
 
 module.exports = api
 

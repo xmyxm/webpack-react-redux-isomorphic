@@ -45,7 +45,7 @@ export const fetchPosts = (param, headers) => {
     const actionName = 'search' 
     return dispatch => {
         dispatch(requestPosts(actionName, param))
-        return fetchCom(actionName,'get', param, headers)
+        return fetchCom(actionName,'post', param, headers)
         .then(json => {
                 if(json){
                     dispatch(resolvePosts(actionName, json))

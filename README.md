@@ -50,7 +50,7 @@ git clone 本项目
 说明：
 
 此项目 线上访问地址(单页应用，因为非node环境所以非同构，部署于iis服务器) http://qqweb.top/m/index.html
-
+提醒一下哦：master 分值最新的，但是 cxf-20180125-api 这个分支是最新优化的，换了个思路解决node段请求性能问题
 
 
 关于作者
